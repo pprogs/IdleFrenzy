@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div v-for="resource in resources" :key="resource.Id">
-      <resource-item :resource="resource"/>
-    </div>
-    
-  </div>    
+    <template v-for="resource in resources">
+      <resource-item :resource="resource" :key="resource.Id"/>
+    </template>   
+  </div>
 </template>
 
 <script>
@@ -18,6 +17,3 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>

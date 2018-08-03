@@ -1,30 +1,39 @@
 <template>    
-  <div>
-    <table class="item">
-      <tr>
-        <td class="tdicon" rowspan="2">
-          <img class="icon" @click="iconClick" :src="require(`@/assets/${resource.Icon}`)" />
-        </td>
-        <td>{{resource.Name}} ({{resource.Quantity}})</td>
-        <td style="width=64px">{{cost}}</td>
-      </tr>
-      <tr>
-        <td><progress class="progress" max=100 value=50>50%</progress></td>   
-        <td style="width=64px">
-          <button :class="buttonClass" :disabled="!canBuy" @click="buy">{{buyLabel}}</button>
-        </td>         
-      </tr>
-    </table>
-  </div>
+  <table class="item">
+    <tr>
+      <td class="tdicon" rowspan="2">
+        <img ref="image" 
+             class="icon" 
+             @click="iconClick" 
+             :src="require(`@/assets/${resource.Icon}`)"/>                          
+      </td>
+      <td>{{resource.Name}} ({{$format(resource.Quantity)}})</td>
+      <td class="w64">{{$format(cost)}}</td>
+    </tr>
+    <tr>
+      <td>
+        <progress 
+          class="progress" 
+          max=100 
+          :value="resource.WorkProgress">50%</progress>
+      </td>   
+      <td class="w64">
+        <ui-button 
+          size="small"
+          :color="canBuy?'green':'red'"
+          :disabled="!canBuy"
+          @click="buy">
+          {{buyLabel}}</ui-button>         
+      </td>         
+    </tr>
+  </table>
 </template>
 
 <script>
 export default {
   props: ["resource"],
   data: function() {
-    return {
-      someData: null
-    };
+    return {};
   },
   methods: {
     iconClick() {
@@ -37,7 +46,10 @@ export default {
     buy() {
       if (this.canBuy) {
         const cost = this.cost;
-        const qty = this.$store.state.buyMultiplier;
+        const qty = this.wantToBuy;
+
+        console.log(typeof qty);
+        console.log(cost + " " + qty);
 
         this.resource.Quantity += qty;
         this.$store.commit("removeMoney", cost);
@@ -46,24 +58,31 @@ export default {
   },
   computed: {
     cost: function() {
-      return this.$store.state.buyMultiplier * this.resource.Cost;
+      return this.wantToBuy * this.resource.Cost;
     },
     buyLabel: function() {
-      return "Buy " + this.$store.state.buyMultiplier;
+      return "Взять " + this.$format(this.wantToBuy);
     },
     canBuy: function() {
-      return this.$store.state.Money >= this.cost;
+      return this.cost > 0 && this.$store.state.Money >= this.cost;
     },
-    buttonClass: function() {
-      return "button button" + (this.canBuy ? "Green" : "Red");
+    howMuchCanBuy: function() {
+      return parseInt(
+        Math.floor(this.$store.state.Money / this.resource.Cost).toFixed(0)
+      );
+    },
+    wantToBuy: function() {
+      return this.$store.state.buyMultiplier === 0
+        ? this.howMuchCanBuy
+        : this.$store.state.buyMultiplier;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .item {
-  width: 300px;
+  width: 100%;
   height: 64px;
 }
 
@@ -80,8 +99,12 @@ export default {
 
 .progress {
   width: 100%;
-  height: 100%;
+  height: 80%;
   border: 1px solid black;
+}
+
+.w64 {
+  width: 64px;
 }
 
 .tdicon {

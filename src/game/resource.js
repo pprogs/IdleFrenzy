@@ -8,6 +8,20 @@ const Resource = function(config) {
   this.BaseIncome = config.income;
   this.BaseWorkTime = config.workTime;
   this.Cost = config.cost;
+
+  this.Working = false;
+  this.WorkProgress = 0;
+
+  this.StartWork = startWork;
+  this.WorkValue = 0;
+
+  let timer = 0;
+
+  function startWork() {
+    if (timer != 0) {
+      return;
+    }
+  }
 };
 
 const Palatka = new Resource({
@@ -26,4 +40,12 @@ const Magazin = new Resource({
   workTime: 5000
 });
 
-export default { Palatka, Magazin };
+const Zapravka = new Resource({
+  name: "Заправка",
+  icon: "zap.jpg",
+  income: 50,
+  cost: 5000,
+  workTime: 10000
+});
+
+export default { Palatka, Magazin, Zapravka };

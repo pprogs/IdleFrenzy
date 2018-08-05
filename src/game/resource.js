@@ -11,15 +11,39 @@ const Resource = function(config) {
 
   this.Working = false;
   this.WorkProgress = 0;
-
-  this.StartWork = startWork;
   this.WorkValue = 0;
 
-  let timer = 0;
+  this.StartWork = startWork;
+  this.Update = update;
 
-  function startWork() {
-    if (timer != 0) {
-      return;
+  let timer = 0;
+  let callb = undefined;
+  let ticks = 0;
+  const fr = 1000.0 / 60;
+
+  function startWork(cb) {
+    if (this.Working || this.Quantity === 0) return;
+
+    this.Working = true;
+
+    callb = cb;
+    ticks = Math.floor(this.BaseWorkTime / fr) + 1;
+    timer = setInterval(update, fr, this);
+  }
+
+  function update(self) {
+    ticks--;
+
+    console.log(self.WorkValue + " " + ticks);
+
+    if (ticks >= 0) {
+      self.WorkValue =
+        (100 * (self.BaseWorkTime - ticks * fr)) / self.BaseWorkTime;
+    } else {
+      clearInterval(timer);
+      self.Working = false;
+      self.WorkValue = 0;
+      if (callb) callb();
     }
   }
 };

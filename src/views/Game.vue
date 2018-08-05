@@ -13,7 +13,7 @@
         Ачивки
       </ui-tab>
 
-      <ui-tab title="Ачивки">
+      <ui-tab title="Статистика">
         Статистика
       </ui-tab>
     </ui-tabs>

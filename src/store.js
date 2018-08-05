@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     buyMultiplier: 1,
-    Money: 100
+    Money: 1000000
   },
   mutations: {
     setMultiplier: function(state, multiplier) {

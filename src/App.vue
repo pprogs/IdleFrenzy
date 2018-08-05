@@ -15,6 +15,7 @@
           has-dropdown
           icon="more_vert"
           ref="dropdownButton8"
+          dropdownPosition="bottom right"
           size="large"
           type="secondary"
         >
@@ -40,13 +41,16 @@ export default {
     return {
       menuOptions: [
         {
-          label: "Settings"
+          label: "Game"
         },
         {
           label: "About"
         },
         {
-          label: "Help"
+          label: "Settings"
+        },
+        {
+          label: "Login"
         }
       ]
     };
@@ -74,6 +78,13 @@ export default {
 
 html {
   font-size: 100%;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  //CSS
+  html {
+    font-size: 80%;
+  }
 }
 
 body {

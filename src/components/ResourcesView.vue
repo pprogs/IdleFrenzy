@@ -1,5 +1,5 @@
 <template>
-  <div style="display:flex; flex-direction: column;justify-content: center;">
+  <div style="display:flex; flex-direction: column;justify-content: center;width:100%">
     <h3>Всего денег : {{totalMoneyFormated}}</h3>
 
     <div class="container">
@@ -74,7 +74,8 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 500px;
+  max-width: 500px;
+  width:100%;
   align-self: center;
 }
 

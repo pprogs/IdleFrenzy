@@ -1,23 +1,23 @@
 <template>    
   <table class="item">
+    <th class="w64"></th>
+    <th></th>
+    <th class="w64"></th>
     <tr>
       <td class="tdicon" rowspan="2">
         <img ref="image" 
              class="icon" 
-             @click="iconClick" 
+             @click.prevent="iconClick" 
              :src="require(`@/assets/${resource.Icon}`)"/>                          
       </td>
       <td>{{resource.Name}} ({{$format(resource.Quantity)}})</td>
-      <td class="w64">{{$format(cost)}}</td>
+      <td>{{$format(cost)}}</td>
     </tr>
     <tr>
-      <td>
-        <progress 
-          class="progress" 
-          max=100 
-          :value="resource.WorkProgress">50%</progress>
+      <td>       
+          <progress-bar :value="resource.WorkValue"></progress-bar>
       </td>   
-      <td class="w64">
+      <td>
         <ui-button 
           size="small"
           :color="canBuy?'green':'red'"
@@ -30,26 +30,32 @@
 </template>
 
 <script>
+import ProgressBar from "@/components/ProgressBar";
+
 export default {
   props: ["resource"],
+
+  components: {
+    ProgressBar
+  },
+
   data: function() {
     return {};
   },
   methods: {
     iconClick() {
-      const income = this.resource.Quantity * this.resource.BaseIncome;
-      if (income > 0) {
-        this.$store.commit("addMoney", income);
-      }
+      this.resource.StartWork(() => {
+        const income = this.resource.Quantity * this.resource.BaseIncome;
+        if (income > 0) {
+          this.$store.commit("addMoney", income);
+        }
+      });
     },
 
     buy() {
       if (this.canBuy) {
         const cost = this.cost;
         const qty = this.wantToBuy;
-
-        console.log(typeof qty);
-        console.log(cost + " " + qty);
 
         this.resource.Quantity += qty;
         this.$store.commit("removeMoney", cost);
@@ -101,6 +107,33 @@ export default {
   width: 100%;
   height: 80%;
   border: 1px solid black;
+}
+
+progress {
+  border-radius: 2px;
+  width: 80%;
+  height: 22px;
+}
+progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+progress::-webkit-progress-value {
+  background-image: -webkit-linear-gradient(
+      -45deg,
+      transparent 33%,
+      rgba(0, 0, 0, 0.1) 33%,
+      rgba(0, 0, 0, 0.1) 66%,
+      transparent 66%
+    ),
+    -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25));
+
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+progress::-moz-progress-bar {
+  /* style rules */
 }
 
 .w64 {

@@ -78,6 +78,7 @@ export default {
 
 html {
   font-size: 100%;
+  font-family: "Alegreya";
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

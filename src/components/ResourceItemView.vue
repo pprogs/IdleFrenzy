@@ -5,19 +5,20 @@
     <th class="w64"></th>
     <tr>
       <td class="tdicon" rowspan="2">
-        <img ref="image" 
-             class="icon" 
-             @click.prevent="iconClick" 
-             :src="require(`@/assets/${resource.Icon}`)"/>                          
+        <div class="divs" @click.prevent="iconClick">
+          <img class="icon" :src="require(`@/assets/${resource.icon}`)"/> 
+          <span class="iconLabel">{{$format(resource.quantity)}}</span>
+        </div>                   
+        
       </td>
-      <td>{{$t(resource.Name)}} ({{$format(resource.Quantity)}})</td>
+      <td>{{$t(resource.id)}} ({{$format(resource.quantity)}})</td>
       <td>{{$format(cost)}}</td>
     </tr>
     <tr>
       <td>       
         <progress-bar 
-          :value="resource.WorkValue" 
-          :label="$formatInt(resource.WorkValue)">
+          :value="resource.workValue" 
+          :label="$formatInt(resource.workValue)">
         </progress-bar>
       </td>   
       <td>
@@ -47,12 +48,7 @@ export default {
   },
   methods: {
     iconClick() {
-      this.resource.StartWork(() => {
-        const income = this.resource.Quantity * this.resource.BaseIncome;
-        if (income > 0) {
-          this.$store.commit("addMoney", income);
-        }
-      });
+      this.resource.startWork();
     },
 
     buy() {
@@ -60,29 +56,25 @@ export default {
         const cost = this.cost;
         const qty = this.wantToBuy;
 
-        this.resource.Quantity += qty;
+        this.resource.quantity += qty;
         this.$store.commit("removeMoney", cost);
       }
     }
   },
   computed: {
     cost: function() {
-      return this.wantToBuy * this.resource.Cost;
+      let wtb = this.wantToBuy;
+      return this.resource.costToBuy(wtb);
     },
     buyLabel: function() {
       return `${this.$t("get")} ${this.$format(this.wantToBuy)}`;
     },
     canBuy: function() {
-      return this.cost > 0 && this.$store.state.Money >= this.cost;
-    },
-    howMuchCanBuy: function() {
-      return parseInt(
-        Math.floor(this.$store.state.Money / this.resource.Cost).toFixed(0)
-      );
+      return this.cost > 0 && this.$store.state.money >= this.cost;
     },
     wantToBuy: function() {
       return this.$store.state.buyMultiplier === 0
-        ? this.howMuchCanBuy
+        ? this.resource.howMuchCanBuy(this.$store.state.money)
         : this.$store.state.buyMultiplier;
     }
   }
@@ -90,9 +82,36 @@ export default {
 </script>
 
 <style scoped>
+.iconLabel {
+  position: relative;
+  display: block;
+  background-color: rgba(192, 192, 192, 0.774);
+  text-align: center;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.icon {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
 .item {
   width: 100%;
   height: 64px;
+}
+
+.divs {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .button {
@@ -113,12 +132,5 @@ export default {
 .tdicon {
   width: 64px;
   height: 64px;
-}
-
-.icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 10px;
-  border: 1px solid black;
 }
 </style>

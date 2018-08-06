@@ -1,7 +1,7 @@
 <template>
   <div style="display:flex; flex-direction: column;justify-content: center;width:100%">
     <h3>Всего денег : {{totalMoneyFormated}}</h3>
-
+    
     <div class="container">
       <ui-radio-group
         class="item"
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import Resources from "@/game/resource";
 import ResourceList from "@/components/ResourceListView";
 import buyGroup from "@/game/buyGroups";
 
@@ -27,7 +26,7 @@ export default {
   },
   data: function() {
     return {
-      resources: [Resources.Palatka, Resources.Magazin, Resources.Zapravka],
+      resources: this.$store.state.resources,
       buyGroupValue: this.$store.state.buyMultiplier,
       buyGroupData: buyGroup
     };
@@ -40,7 +39,7 @@ export default {
   },
   computed: {
     totalMoneyFormated() {
-      return this.$format(this.$store.state.Money);
+      return this.$format(this.$store.state.money);
     }
   }
 };

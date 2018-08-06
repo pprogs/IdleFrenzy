@@ -1,73 +1,73 @@
 const Resource = function(config) {
-  this.Id = config.id;
-  this.Name = config.name;
-  this.Icon = config.icon;
-  this.Hidden = true;
+  Object.assign(this, config);
 
-  this.Quantity = 0;
-  this.BaseIncome = config.income;
-  this.BaseWorkTime = config.workTime;
-  this.Cost = config.cost;
+  this.hasManager = false;
+  this.hidden = true;
+  this.quantity = 0;
 
-  this.Working = false;
-  this.WorkProgress = 0;
-  this.WorkValue = 0;
+  this.working = false;
+  this.workValue = 0;
 
-  this.StartWork = startWork;
-  this.Update = update;
+  this.startWork = startWork;
+  this.update = update;
+  this.howMuchCanBuy = howMuchCanBuy;
+  this.costToBuy = costToBuy;
 
   let timer = 0;
-  let callb = undefined;
   let ticks = 0;
   const fr = 1000.0 / 60;
 
-  function startWork(cb) {
-    if (this.Working || this.Quantity === 0) return;
+  function howMuchCanBuy(money) {
+    return parseInt(Math.floor(money / this.baseCost).toFixed(0));
+  }
 
-    this.Working = true;
+  function costToBuy(qty) {
+    return qty * this.baseCost;
+  }
 
-    callb = cb;
-    ticks = Math.floor(this.BaseWorkTime / fr) + 1;
+  function startWork() {
+    if (this.working || this.quantity === 0) return;
+
+    this.working = true;
+
+    ticks = Math.floor(this.baseTime / fr) + 1;
     timer = setInterval(update, fr, this);
+  }
+
+  function finishWork() {
+    if (!this.working) return;
+
+    const income = this.quantity * this.baseIncome;
+    if (income > 0) {
+      this.$store.commit("addMoney", income);
+    }
+
+    this.working = false;
+    this.workValue = 0;
+
+    if (this.hasManager) this.startWork();
   }
 
   function update(self) {
     ticks--;
 
     if (ticks >= 0) {
-      self.WorkValue =
-        (100 * (self.BaseWorkTime - ticks * fr)) / self.BaseWorkTime;
+      self.workValue = (100 * (self.baseTime - ticks * fr)) / self.baseTime;
     } else {
       clearInterval(timer);
-      self.Working = false;
-      self.WorkValue = 0;
-      if (callb) callb();
+      finishWork.call(self);
     }
   }
 };
 
-const Palatka = new Resource({
-  name: "r_palatka",
-  icon: "palatka.jpg",
-  income: 5,
-  cost: 100,
-  workTime: 1000
+import resourceData from "./resources.json";
+
+let Resources = [];
+
+resourceData.forEach(element => {
+  Resources.push(new Resource(element));
 });
 
-const Magazin = new Resource({
-  name: "r_magazin",
-  icon: "magaz.jpg",
-  income: 25,
-  cost: 2000,
-  workTime: 5000
-});
+console.log(Resources);
 
-const Zapravka = new Resource({
-  name: "r_gaz",
-  icon: "zap.jpg",
-  income: 50,
-  cost: 5000,
-  workTime: 10000
-});
-
-export default { Palatka, Magazin, Zapravka };
+export { Resources, Resource };

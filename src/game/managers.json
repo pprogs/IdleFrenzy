@@ -1,0 +1,23 @@
+[
+  {
+    "id": "m_palatka",
+    "desc": "m_d_palatka",
+    "icon": "palatka.jpg",
+    "cost": 1000,
+    "rid" : "r_palatka"
+  },
+  {
+    "id": "m_magazin",
+    "desc": "m_d_magazin",
+    "icon": "magaz.jpg",
+    "cost": 10000,
+    "rid" : "r_magazin"
+  },
+  {
+    "id": "m_gaz",
+    "desc": "m_d_gaz",
+    "icon": "zap.jpg",
+    "cost": 100000,
+    "rid" : "r_gaz"
+  }
+]

@@ -3,21 +3,33 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+import { Resources } from "@/game/resource";
+import { Managers } from "@/game/manager";
+
+const store = new Vuex.Store({
   state: {
     buyMultiplier: 1,
-    Money: 1000000
+    money: 100,
+    resources: Resources,
+    managers: Managers,
   },
+
   mutations: {
     setMultiplier: function(state, multiplier) {
       state.buyMultiplier = multiplier;
     },
     addMoney: function(state, moneyToAdd) {
-      state.Money += moneyToAdd;
+      state.money += moneyToAdd;
     },
     removeMoney: function(state, moneyToRemove) {
-      state.Money -= moneyToRemove;
+      state.money -= moneyToRemove;
     }
   },
   actions: {}
 });
+
+Resources.forEach(element => {
+  element.$store = store;
+});
+
+export default store;

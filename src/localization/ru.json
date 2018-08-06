@@ -5,5 +5,12 @@
 
     "r_palatka" : "Палатка",
     "r_magazin" : "Магазин",
-    "r_gaz" : "Заправка"
+    "r_gaz" : "Заправка",
+
+    "m_palatka": "Петя",
+    "m_d_palatka": "Low performance salesman",
+    "m_magazin": "Вася",
+    "m_d_magazin": "Not so good manager",
+    "m_gaz": "Миша",
+    "m_d_gaz": "Unpleasant and rude dude )"
 }

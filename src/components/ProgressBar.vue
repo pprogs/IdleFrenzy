@@ -1,32 +1,31 @@
 <template>
-
   <div class="progressBar">
     <span v-if="label" class="progressBarLabel">{{label}}</span>
-    <span class="progressBarValue" :style="{ width : value + '%'}"></span>
-  </div>
-
-    
+    <span class="progressBarValue" :style="styles"></span>
+  </div>    
 </template>
-
 
 <script>
 export default {
-  props: ["value", "label"],
-
-  data: function() {
-    return {};
+  props: {
+    value: Number,
+    label: [Number, String],
+    animSpeed: {
+      type: Number,
+      default: 50
+    }
   },
 
   computed: {
-    widthStyle: function() {
-      console.log(this.value);
-      return `{width : ${this.value}}`;
+    styles: function() {
+      return {
+        width: `${this.value}%`,
+        animation: `barberpole ${this.animSpeed}s linear infinite`
+      };
     }
   }
 };
 </script>
-
-
 
 <style scoped>
 .progressBar {
@@ -63,7 +62,6 @@ export default {
     rgb(65, 105, 63) 2rem
   );
   background-size: 200% 200%;
-  animation: barberpole 50s linear infinite;
   background-attachment: fixed;
 }
 

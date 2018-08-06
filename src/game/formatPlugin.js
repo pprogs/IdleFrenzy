@@ -2,6 +2,8 @@ let VueFormatNumberPlugin = {};
 
 VueFormatNumberPlugin.install = function(Vue) {
   Vue.prototype.$formatInt = function(number) {
+    if (number === undefined) return "UND";
+
     return parseInt(number.toFixed(0));
   };
 

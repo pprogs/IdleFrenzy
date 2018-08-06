@@ -1,0 +1,23 @@
+[
+  {
+    "id": "r_palatka",
+    "icon": "palatka.jpg",
+    "baseIncome": 5,
+    "baseCost": 100,
+    "baseTime": 1000
+  },
+  {
+    "id": "r_magazin",
+    "icon": "magaz.jpg",
+    "baseIncome": 25,
+    "baseCost": 2000,
+    "baseTime": 5000
+  },
+  {
+    "id": "r_gaz",
+    "icon": "zap.jpg",
+    "baseIncome": 50,
+    "baseCost": 5000,
+    "baseTime": 10000
+  }
+]

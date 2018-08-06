@@ -6,7 +6,7 @@
       </ui-tab>
 
       <ui-tab title="Менеджеры">
-        Манагеры
+        <managers-view></managers-view>
       </ui-tab>
 
       <ui-tab title="Ачивки">
@@ -22,10 +22,12 @@
 
 <script>
 import ResourcesView from "@/components/ResourcesView";
+import ManagersView from "@/components/ManagersView";
 
 export default {
   components: {
-    ResourcesView
+    ResourcesView,
+    ManagersView
   }
 };
 </script>

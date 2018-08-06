@@ -1,8 +1,15 @@
 {
-    "title" : "Idle Frenzy",
-    "get" : "Get",
+  "title": "Idle Frenzy",
+  "get": "Get",
 
-    "r_palatka" : "Stall",
-    "r_magazin" : "Store",
-    "r_gaz" : "Gas station"
+  "r_palatka": "Stall",
+  "r_magazin": "Store",
+  "r_gaz": "Gas station",
+
+  "m_palatka": "Petya",
+  "m_d_palatka": "Low performance salesman",
+  "m_magazin": "Vasya",
+  "m_d_magazin": "Not so good manager",
+  "m_gaz": "Mihael",
+  "m_d_gaz": "Unpleasant and rude dude )"
 }

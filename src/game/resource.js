@@ -49,7 +49,7 @@ const Resource = function(config) {
 };
 
 const Palatka = new Resource({
-  name: "Палатка",
+  name: "r_palatka",
   icon: "palatka.jpg",
   income: 5,
   cost: 100,
@@ -57,7 +57,7 @@ const Palatka = new Resource({
 });
 
 const Magazin = new Resource({
-  name: "Магазин",
+  name: "r_magazin",
   icon: "magaz.jpg",
   income: 25,
   cost: 2000,
@@ -65,7 +65,7 @@ const Magazin = new Resource({
 });
 
 const Zapravka = new Resource({
-  name: "Заправка",
+  name: "r_gaz",
   icon: "zap.jpg",
   income: 50,
   cost: 5000,

@@ -10,12 +10,12 @@
              @click.prevent="iconClick" 
              :src="require(`@/assets/${resource.Icon}`)"/>                          
       </td>
-      <td>{{resource.Name}} ({{$format(resource.Quantity)}})</td>
+      <td>{{$t(resource.Name)}} ({{$format(resource.Quantity)}})</td>
       <td>{{$format(cost)}}</td>
     </tr>
     <tr>
       <td>       
-          <progress-bar :value="resource.WorkValue"></progress-bar>
+        <progress-bar :value="resource.WorkValue"></progress-bar>
       </td>   
       <td>
         <ui-button 
@@ -67,7 +67,7 @@ export default {
       return this.wantToBuy * this.resource.Cost;
     },
     buyLabel: function() {
-      return "Взять " + this.$format(this.wantToBuy);
+      return `${this.$t("get")} ${this.$format(this.wantToBuy)}`;
     },
     canBuy: function() {
       return this.cost > 0 && this.$store.state.Money >= this.cost;
@@ -101,39 +101,6 @@ export default {
 
 .buttonGreen {
   background-color: rgba(0, 128, 0, 0.555);
-}
-
-.progress {
-  width: 100%;
-  height: 80%;
-  border: 1px solid black;
-}
-
-progress {
-  border-radius: 2px;
-  width: 80%;
-  height: 22px;
-}
-progress::-webkit-progress-bar {
-  background-color: #eee;
-  border-radius: 2px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
-}
-progress::-webkit-progress-value {
-  background-image: -webkit-linear-gradient(
-      -45deg,
-      transparent 33%,
-      rgba(0, 0, 0, 0.1) 33%,
-      rgba(0, 0, 0, 0.1) 66%,
-      transparent 66%
-    ),
-    -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25));
-
-  border-radius: 2px;
-  background-size: 35px 20px, 100% 100%, 100% 100%;
-}
-progress::-moz-progress-bar {
-  /* style rules */
 }
 
 .w64 {

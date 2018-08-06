@@ -58,6 +58,8 @@ export default {
 
         this.resource.quantity += qty;
         this.$store.commit("removeMoney", cost);
+
+        if (this.hasManager && !this.working) this.resource.startWork();
       }
     }
   },

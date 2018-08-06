@@ -15,7 +15,10 @@
     </tr>
     <tr>
       <td>       
-        <progress-bar :value="resource.WorkValue"></progress-bar>
+        <progress-bar 
+          :value="resource.WorkValue" 
+          :label="$formatInt(resource.WorkValue)">
+        </progress-bar>
       </td>   
       <td>
         <ui-button 

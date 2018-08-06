@@ -1,6 +1,10 @@
 let VueFormatNumberPlugin = {};
 
 VueFormatNumberPlugin.install = function(Vue) {
+  Vue.prototype.$formatInt = function(number) {
+    return parseInt(number.toFixed(0));
+  };
+
   Vue.prototype.$format = function(number) {
     if (number < 1000) {
       return "" + number;

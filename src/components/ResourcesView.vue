@@ -17,27 +17,9 @@
 </template>
 
 <script>
-import Resources from "../game/resource";
+import Resources from "@/game/resource";
 import ResourceList from "@/components/ResourceListView";
-
-const buyGroup = [
-  {
-    label: "x1",
-    value: 1
-  },
-  {
-    label: "x10",
-    value: 10
-  },
-  {
-    label: "x100",
-    value: 100
-  },
-  {
-    label: "ВСЕ!",
-    value: -1
-  }
-];
+import buyGroup from "@/game/buyGroups";
 
 export default {
   components: {
@@ -75,7 +57,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   max-width: 500px;
-  width:100%;
+  width: 100%;
   align-self: center;
 }
 

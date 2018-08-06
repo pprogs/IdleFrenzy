@@ -1,7 +1,8 @@
 <template>
 
   <div class="progressBar">
-    <span class="progressBarValue" :style="{ width : value + '%'}">50%</span>
+    <span v-if="label" class="progressBarLabel">{{label}}</span>
+    <span class="progressBarValue" :style="{ width : value + '%'}"></span>
   </div>
 
     
@@ -10,7 +11,7 @@
 
 <script>
 export default {
-  props: ["value"],
+  props: ["value", "label"],
 
   data: function() {
     return {};
@@ -37,12 +38,22 @@ export default {
   border-radius: 3px;
 }
 
+.progressBarLabel {
+  position: absolute;
+  display: block;
+  width: 100%;
+  z-index: 1;
+  color: black;
+  font-weight: bold;
+}
+
 .progressBarValue {
-  position: relative;
+  position: absolute;
   display: block;
   height: 100%;
   background-color: lightgreen;
   width: 50%;
+  border-radius: 3px;
 
   background-image: repeating-linear-gradient(
     -45deg,

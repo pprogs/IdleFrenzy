@@ -34,8 +34,6 @@ const Resource = function(config) {
   function update(self) {
     ticks--;
 
-    console.log(self.WorkValue + " " + ticks);
-
     if (ticks >= 0) {
       self.WorkValue =
         (100 * (self.BaseWorkTime - ticks * fr)) / self.BaseWorkTime;

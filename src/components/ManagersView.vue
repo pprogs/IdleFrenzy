@@ -8,7 +8,7 @@ import ManagersList from "@/components/ManagerListView";
 export default {
   data: function() {
     return {
-      managers: this.$store.state.managers
+      managers: this.$game.managers
     };
   },
 

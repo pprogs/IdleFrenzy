@@ -15,6 +15,4 @@ ManagersData.forEach(element => {
   Managers.push(new Manager(element));
 });
 
-console.log(Managers);
-
 export { Managers, Manager };

@@ -26,7 +26,7 @@ export default {
   },
   data: function() {
     return {
-      resources: this.$store.state.resources,
+      resources: this.$game.resources,
       buyGroupValue: this.$store.state.buyMultiplier,
       buyGroupData: buyGroup
     };

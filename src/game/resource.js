@@ -9,13 +9,13 @@ const Resource = function(config) {
   this.workValue = 0;
 
   this.startWork = startWork;
-  this.update = update;
   this.howMuchCanBuy = howMuchCanBuy;
   this.costToBuy = costToBuy;
+  this.advance = advance;
+  this.finishWork = finishWork;
 
-  let timer = 0;
   let ticks = 0;
-  const fr = 1000.0 / 60;
+  const fr = 1000.0 / 30;
 
   function howMuchCanBuy(money) {
     return parseInt(Math.floor(money / this.baseCost).toFixed(0));
@@ -31,7 +31,6 @@ const Resource = function(config) {
     this.working = true;
 
     ticks = Math.floor(this.baseTime / fr) + 1;
-    timer = setInterval(update, fr, this);
   }
 
   function finishWork() {
@@ -48,14 +47,14 @@ const Resource = function(config) {
     if (this.hasManager) this.startWork();
   }
 
-  function update(self) {
+  function advance(delta) {
+    if (!this.working) return;
     ticks--;
 
     if (ticks >= 0) {
-      self.workValue = (100 * (self.baseTime - ticks * fr)) / self.baseTime;
+      this.workValue = (100 * (this.baseTime - ticks * fr)) / this.baseTime;
     } else {
-      clearInterval(timer);
-      finishWork.call(self);
+      this.finishWork();
     }
   }
 };

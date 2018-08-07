@@ -29,6 +29,11 @@
       [num : {{res.num()}}]
     </div> 
 
+    <div>
+      <button @click.prevent="start">start</button>
+      <button @click.prevent="end">end</button>
+    </div>
+
   </div>
 </template>
 
@@ -62,6 +67,13 @@ export default {
     dec() {
       this.op = "-";
       this.res = this.a.dec(this.b);
+    },
+
+    start() {
+      this.$mainLoop.start();
+    },
+    end() {
+      this.$mainLoop.stop();
     }
   }
 };

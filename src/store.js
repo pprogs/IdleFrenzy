@@ -3,15 +3,10 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-import { Resources } from "@/game/resource";
-import { Managers } from "@/game/manager";
-
 const store = new Vuex.Store({
   state: {
     buyMultiplier: 1,
-    money: 100,
-    resources: Resources,
-    managers: Managers,
+    money: 10000000
   },
 
   mutations: {
@@ -24,12 +19,7 @@ const store = new Vuex.Store({
     removeMoney: function(state, moneyToRemove) {
       state.money -= moneyToRemove;
     }
-  },
-  actions: {}
-});
-
-Resources.forEach(element => {
-  element.$store = store;
+  }
 });
 
 export default store;

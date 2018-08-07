@@ -30,9 +30,7 @@ export default {
       if (!this.manager.canBuy(this.$store.state.money)) return;
       this.manager.bought = true;
       this.$store.commit("removeMoney", this.manager.cost);
-      let res = this.$store.state.resources.find(
-        r => r.id === this.manager.rid
-      );
+      let res = this.$game.resources.find(r => r.id === this.manager.rid);
       if (res) {
         res.hasManager = true;
         res.startWork();

@@ -14,6 +14,9 @@ Vue.use(KeenUI);
 import FormatPlugin from "./game/formatPlugin";
 Vue.use(FormatPlugin);
 
+import Game from "./game/game";
+Vue.use(Game);
+
 Vue.config.productionTip = false;
 
 new Vue({
@@ -26,6 +29,11 @@ new Vue({
       console.log(document.visibilityState);
     }
   },
+
+  created() {
+    this.$game.init(this);
+  },
+
   mounted() {
     this.$nextTick(function() {
       document.addEventListener(

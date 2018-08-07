@@ -2,8 +2,7 @@
   <div>
     <ui-tabs type="text">
       <ui-tab title="Ресурсы">
-        <!--<resources-view></resources-view>-->
-        <numbers-test></numbers-test>
+        <resources-view></resources-view>        
       </ui-tab>
 
       <ui-tab title="Менеджеры">
@@ -11,7 +10,7 @@
       </ui-tab>
 
       <ui-tab title="Ачивки">
-        Ачивки
+        <numbers-test></numbers-test>
       </ui-tab>
 
       <ui-tab title="Статистика">

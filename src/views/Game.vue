@@ -2,7 +2,8 @@
   <div>
     <ui-tabs type="text">
       <ui-tab title="Ресурсы">
-        <resources-view></resources-view>
+        <!--<resources-view></resources-view>-->
+        <numbers-test></numbers-test>
       </ui-tab>
 
       <ui-tab title="Менеджеры">
@@ -23,11 +24,13 @@
 <script>
 import ResourcesView from "@/components/ResourcesView";
 import ManagersView from "@/components/ManagersView";
+import NumbersTest from "@/components/NumbersTest";
 
 export default {
   components: {
     ResourcesView,
-    ManagersView
+    ManagersView,
+    NumbersTest
   }
 };
 </script>

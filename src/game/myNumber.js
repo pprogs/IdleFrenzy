@@ -83,6 +83,9 @@ function mulNumbers(a, b) {
   let n = numa * numb;
   let k = mink + mink;
 
+  n = a.number * b.number;
+  k = a.k + b.k;
+
   return reduce(n, k);
 }
 

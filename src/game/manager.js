@@ -5,6 +5,17 @@ const Manager = function(config) {
   this.canBuy = function(money) {
     return !this.bought && money >= this.cost;
   };
+
+  this.save = function() {
+    return {
+      id: this.id,
+      bought: this.bought
+    };
+  };
+
+  this.load = function(data) {
+    Object.assign(this, data);
+  };
 };
 
 import ManagersData from "./managers.json";

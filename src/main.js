@@ -26,12 +26,11 @@ new Vue({
 
   methods: {
     handleVisibilityChange: function() {
-      console.log(document.visibilityState);
+      this.$emit("visibility", document.visibilityState);
+    },
+    beforeUnload: function() {
+      this.$emit("unload");
     }
-  },
-
-  created() {
-    this.$game.init(this);
   },
 
   mounted() {
@@ -41,6 +40,8 @@ new Vue({
         this.handleVisibilityChange,
         false
       );
+
+      window.addEventListener("beforeunload", this.beforeUnload, false);
     });
   },
 
@@ -49,5 +50,7 @@ new Vue({
       "visibilitychange",
       this.handleVisibilityChange
     );
+
+    window.removeEventListener("beforeunload", this.beforeUnload);
   }
 }).$mount("#app");

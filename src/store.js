@@ -13,6 +13,9 @@ const store = new Vuex.Store({
     setMultiplier: function(state, multiplier) {
       state.buyMultiplier = multiplier;
     },
+    setMoney: function(state, moneyToSet) {
+      state.money = moneyToSet;
+    },
     addMoney: function(state, moneyToAdd) {
       state.money += moneyToAdd;
     },

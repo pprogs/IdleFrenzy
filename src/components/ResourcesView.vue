@@ -27,7 +27,6 @@ export default {
   data: function() {
     return {
       resources: this.$game.resources,
-      buyGroupValue: this.$store.state.buyMultiplier,
       buyGroupData: buyGroup
     };
   },
@@ -40,6 +39,10 @@ export default {
   computed: {
     totalMoneyFormated() {
       return this.$format(this.$store.state.money);
+    },
+    buyGroupValue() {
+      let m = this.$store.state.buyMultiplier;
+      return m === 0 ? -1 : m;
     }
   }
 };

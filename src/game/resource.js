@@ -4,18 +4,21 @@ const Resource = function(config) {
   this.hasManager = false;
   this.hidden = true;
   this.quantity = 0;
-
   this.working = false;
   this.workValue = 0;
 
+  //functions
   this.startWork = startWork;
   this.howMuchCanBuy = howMuchCanBuy;
   this.costToBuy = costToBuy;
   this.advance = advance;
   this.finishWork = finishWork;
+  this.save = save;
+  this.load = load;
 
+  //private
   let ticks = 0;
-  const fr = 1000.0 / 30;
+  let fr = 1000.0 / 30;
 
   function howMuchCanBuy(money) {
     return parseInt(Math.floor(money / this.baseCost).toFixed(0));
@@ -56,6 +59,27 @@ const Resource = function(config) {
     } else {
       this.finishWork();
     }
+  }
+
+  function save() {
+    return {
+      id: this.id,
+      hasManager: this.hasManager,
+      hidden: this.hidden,
+      quantity: this.quantity,
+      working: this.working,
+      workValue: this.workValue,
+
+      ticks,
+      fr
+    };
+  }
+
+  function load(data) {
+    Object.assign(this, data);
+
+    ticks = data.ticks;
+    fr = data.fr;
   }
 };
 

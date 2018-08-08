@@ -32,6 +32,7 @@
     <div>
       <button @click.prevent="start">start</button>
       <button @click.prevent="end">end</button>
+      <button @click.prevent="save">save</button>
     </div>
 
   </div>
@@ -74,6 +75,9 @@ export default {
     },
     end() {
       this.$mainLoop.stop();
+    },
+    save() {
+      this.$game.save();
     }
   }
 };

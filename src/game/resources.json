@@ -12,15 +12,23 @@
     "icon": "magaz.jpg",
     "baseIncome": 25,
     "baseCost": 2000,
+    "baseTime": 3,
+    "baseCostMult": 1.10
+  },
+  {
+    "id": "r_rest",
+    "icon": "rest.jpg",
+    "baseIncome": 100,
+    "baseCost": 5000,
     "baseTime": 5,
     "baseCostMult": 1.10
   },
   {
     "id": "r_gaz",
     "icon": "zap.jpg",
-    "baseIncome": 100,
-    "baseCost": 5000,
-    "baseTime": 10,
+    "baseIncome": 300,
+    "baseCost": 11000,
+    "baseTime": 7,
     "baseCostMult": 1.10
   }
 ]

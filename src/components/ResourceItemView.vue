@@ -11,7 +11,7 @@
         </div>                   
         
       </td>
-      <td>{{$t(resource.id)}} ({{$format(resource.quantity)}})</td>
+      <td>{{$t(resource.id)}} ({{test}})</td>
       <td>{{$format(cost)}}</td>
     </tr>
     <tr>
@@ -78,6 +78,9 @@ export default {
       return this.$store.state.buyMultiplier === 0
         ? this.resource.howMuchCanBuy(this.$store.state.money)
         : this.$store.state.buyMultiplier;
+    },
+    test: function() {
+      return this.resource.testNumber.format();
     }
   }
 };

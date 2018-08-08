@@ -1,11 +1,16 @@
+import myNumber from "@/game/myNumber";
+
 const Resource = function(config) {
   Object.assign(this, config);
 
   this.hasManager = false;
   this.hidden = true;
-  this.quantity = 0;
   this.working = false;
   this.workValue = 0;
+
+  //
+  this.quantity = 0;
+  this.testNumber = new myNumber();
 
   //functions
   this.startWork = startWork;
@@ -33,7 +38,7 @@ const Resource = function(config) {
 
     this.working = true;
 
-    ticks = Math.floor(this.baseTime / fr) + 1;
+    ticks = Math.floor((this.baseTime * 1000) / fr) + 1;
   }
 
   function finishWork() {
@@ -42,6 +47,7 @@ const Resource = function(config) {
     const income = this.quantity * this.baseIncome;
     if (income > 0) {
       this.$store.commit("addMoney", income);
+      this.testNumber.add(income);
     }
 
     this.working = false;
@@ -55,7 +61,8 @@ const Resource = function(config) {
     ticks--;
 
     if (ticks >= 0) {
-      this.workValue = (100 * (this.baseTime - ticks * fr)) / this.baseTime;
+      this.workValue =
+        (100 * (this.baseTime * 1000 - ticks * fr)) / (this.baseTime * 1000);
     } else {
       this.finishWork();
     }
@@ -69,6 +76,7 @@ const Resource = function(config) {
       quantity: this.quantity,
       working: this.working,
       workValue: this.workValue,
+      testNumber: this.testNumber,
 
       ticks,
       fr
@@ -77,6 +85,8 @@ const Resource = function(config) {
 
   function load(data) {
     Object.assign(this, data);
+
+    this.testNumber = myNumber.fromObj(this.testNumber);
 
     ticks = data.ticks;
     fr = data.fr;

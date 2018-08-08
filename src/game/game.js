@@ -2,17 +2,20 @@ import { Resources } from "@/game/resource";
 import { Managers } from "@/game/manager";
 
 const Game = function() {
+  //data
   this.resources = Resources;
   this.managers = Managers;
 
   this.achivments = [];
   this.upgrades = [];
 
+  this.statistics = undefined;
+
+  //properties
   this.money = 0;
   this.reincarnations = 0;
 
-  this.statistics = undefined;
-
+  //methods
   this.advance = function(delta) {
     this.resources.forEach(res => res.advance(delta));
   };
@@ -76,8 +79,6 @@ const Game = function() {
     vm.$on("unload", () => {
       this.save();
     });
-
-    this.load();
   };
 };
 
@@ -88,10 +89,12 @@ Game.install = function(Vue) {
   Vue.prototype.$game = new Game();
   Vue.prototype.$mainLoop = MainLoop;
 
+  //не самое лучшее решение, но рабочее )
   Vue.mixin({
     created() {
       if (!this.$parent && this._isVue) {
         this.$game.init(this);
+        this.$game.load();
         this.$mainLoop.start();
       }
     }

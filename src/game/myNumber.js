@@ -4,7 +4,7 @@ let myNumber = function(n, k) {
 };
 
 myNumber.precision = 999999;
-myNumber.dropAfter = 3;
+myNumber.dropAfter = 4;
 myNumber.prefixes = [
   "",
   "K",
@@ -61,30 +61,25 @@ function addFunction(func) {
 }
 
 function divNumbers(a, b) {
-  let mink = Math.min(a.k, b.k);
-  let samek = a.k === b.k;
+  let n = a.number / b.number;
+  let k = a.k - b.k;
 
-  let numa = samek ? a.number : Math.pow(1000, a.k - mink) * a.number;
-  let numb = samek ? b.number : Math.pow(1000, b.k - mink) * b.number;
+  while (k < 0) {
+    n /= 1000;
+    k += 1;
+  }
 
-  let n = Math.floor(numa / numb);
-  let k = 0;
+  while (n < 1 && k > 0) {
+    n *= 1000;
+    k -= 1;
+  }
 
   return reduce(n, k);
 }
 
 function mulNumbers(a, b) {
-  let mink = Math.min(a.k, b.k);
-  let samek = a.k === b.k;
-
-  let numa = samek ? a.number : Math.pow(1000, a.k - mink) * a.number;
-  let numb = samek ? b.number : Math.pow(1000, b.k - mink) * b.number;
-
-  let n = numa * numb;
-  let k = mink + mink;
-
-  n = a.number * b.number;
-  k = a.k + b.k;
+  let n = a.number * b.number;
+  let k = a.k + b.k;
 
   return reduce(n, k);
 }
@@ -122,6 +117,8 @@ function addNumbers(a, b) {
 }
 
 function compareNumbers(a, b) {
+  if (a.number > b.number && a.k >= b.k) return 1;
+  if (a.number < b.number && a.k <= b.k) return -1;
   let mink = Math.min(a.k, b.k);
   let samek = a.k === b.k;
   let numa = samek ? a.number : Math.pow(1000, a.k - mink) * a.number;
@@ -148,7 +145,7 @@ myNumber.prototype.format = function() {
 function reduce(n, k) {
   while (n > myNumber.precision) {
     n /= 1000;
-    k++;
+    k += 1;
   }
   return new myNumber(+n.toFixed(1), k);
 }

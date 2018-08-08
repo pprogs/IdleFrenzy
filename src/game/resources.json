@@ -4,20 +4,23 @@
     "icon": "palatka.jpg",
     "baseIncome": 5,
     "baseCost": 100,
-    "baseTime": 1000
+    "baseTime": 1,
+    "baseCostMult": 1.10
   },
   {
     "id": "r_magazin",
     "icon": "magaz.jpg",
     "baseIncome": 25,
     "baseCost": 2000,
-    "baseTime": 5000
+    "baseTime": 5,
+    "baseCostMult": 1.10
   },
   {
     "id": "r_gaz",
     "icon": "zap.jpg",
-    "baseIncome": 50,
+    "baseIncome": 100,
     "baseCost": 5000,
-    "baseTime": 10000
+    "baseTime": 10,
+    "baseCostMult": 1.10
   }
 ]

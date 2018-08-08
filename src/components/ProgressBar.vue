@@ -12,7 +12,7 @@ export default {
     label: [Number, String],
     animSpeed: {
       type: Number,
-      default: 50
+      default: 0
     }
   },
 
@@ -20,7 +20,9 @@ export default {
     styles: function() {
       return {
         width: `${this.value}%`,
-        animation: `barberpole ${this.animSpeed}s linear infinite`
+        animation: !this.animSpeed
+          ? ""
+          : `barberpole ${this.animSpeed}s linear infinite`
       };
     }
   }

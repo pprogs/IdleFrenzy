@@ -1,5 +1,5 @@
 module.exports = {
-  assetsDir: 'assets',
+  assetsDir: "assets",
   baseUrl: undefined,
   outputDir: undefined,
   runtimeCompiler: undefined,
@@ -8,8 +8,16 @@ module.exports = {
   css: undefined,
 
   pwa: {
-    name: 'Idle Frenzy'
+    name: "Idle Frenzy"
   },
 
-  lintOnSave: undefined
-}
+  lintOnSave: undefined,
+
+  configureWebpack: {
+    devServer: {
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }
+  }
+};

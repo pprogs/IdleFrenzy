@@ -7,12 +7,12 @@
       <td class="tdicon" rowspan="2">
         <div class="divs" @click.prevent="iconClick">
           <img class="icon" :src="require(`@/assets/${resource.icon}`)"/> 
-          <span class="iconLabel">{{$format(resource.quantity)}}</span>
+          <span class="iconLabel">{{resource.quantity.format()}}</span>
         </div>                   
         
       </td>
-      <td>{{$t(resource.id)}} ({{test}})</td>
-      <td>{{$format(cost)}}</td>
+      <td>{{$t(resource.id)}}</td>
+      <td>{{cost.format()}}</td>
     </tr>
     <tr>
       <td>       
@@ -35,6 +35,7 @@
 
 <script>
 import ProgressBar from "@/components/ProgressBar";
+import myNumber from "@/game/myNumber";
 
 export default {
   props: ["resource"],
@@ -53,13 +54,11 @@ export default {
 
     buy() {
       if (this.canBuy) {
-        const cost = this.cost;
         const qty = this.wantToBuy;
 
-        this.resource.quantity += qty;
-        this.$store.commit("removeMoney", cost);
-
-        if (this.hasManager && !this.working) this.resource.startWork();
+        if (this.resource.buy(qty)) {
+          if (this.hasManager && !this.working) this.resource.startWork();
+        }
       }
     }
   },
@@ -69,18 +68,17 @@ export default {
       return this.resource.costToBuy(wtb);
     },
     buyLabel: function() {
-      return `${this.$t("get")} ${this.$format(this.wantToBuy)}`;
+      return `${this.$t("get")} ${this.wantToBuy.format()}`;
     },
     canBuy: function() {
-      return this.cost > 0 && this.$store.state.money >= this.cost;
+      let wtb = this.wantToBuy;
+      let cost = this.resource.costToBuy(wtb);
+      return cost.cmp(this.$game.money) <= 0;
     },
     wantToBuy: function() {
       return this.$store.state.buyMultiplier === 0
-        ? this.resource.howMuchCanBuy(this.$store.state.money)
-        : this.$store.state.buyMultiplier;
-    },
-    test: function() {
-      return this.resource.testNumber.format();
+        ? this.resource.howMuchCanBuy(this.$game.money)
+        : new myNumber(this.$store.state.buyMultiplier);
     }
   }
 };

@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     totalMoneyFormated() {
-      return this.$format(this.$store.state.money);
+      return this.$game.money.format();
     },
     buyGroupValue() {
       let m = this.$store.state.buyMultiplier;

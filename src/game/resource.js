@@ -3,19 +3,23 @@ import myNumber from "@/game/myNumber";
 const Resource = function(config) {
   Object.assign(this, config);
 
+  //
   this.hasManager = false;
   this.hidden = true;
   this.working = false;
   this.workValue = 0;
 
   //
-  this.quantity = 0;
-  this.testNumber = new myNumber();
+  this.quantity = new myNumber();
+  this.cost = new myNumber(this.baseCost); //текущая стоимость
+  this.income = new myNumber(); //текущий доход в секунду ips
 
   //functions
   this.startWork = startWork;
   this.howMuchCanBuy = howMuchCanBuy;
   this.costToBuy = costToBuy;
+  this.buy = buy;
+
   this.advance = advance;
   this.finishWork = finishWork;
   this.save = save;
@@ -26,15 +30,31 @@ const Resource = function(config) {
   let fr = 1000.0 / 30;
 
   function howMuchCanBuy(money) {
-    return parseInt(Math.floor(money / this.baseCost).toFixed(0));
+    let cost = this.cost;
+    let total = new myNumber();
+    let qty = new myNumber();
+
+    for (;;) {
+      total.add(cost);
+      if (total.cmp(money) >= 0) return qty;
+      qty.add(1);
+      cost.mul(this.baseCostMult);
+    }
   }
 
   function costToBuy(qty) {
-    return qty * this.baseCost;
+    return myNumber.mul(qty, this.baseCost);
+  }
+
+  function buy(qty) {
+    let cost = this.costToBuy(qty);
+    if (!this.$game.getMoney(cost)) return false;
+    this.quantity.add(qty);
+    return true;
   }
 
   function startWork() {
-    if (this.working || this.quantity === 0) return;
+    if (this.working || this.quantity.eqz()) return;
 
     this.working = true;
 
@@ -44,10 +64,9 @@ const Resource = function(config) {
   function finishWork() {
     if (!this.working) return;
 
-    const income = this.quantity * this.baseIncome;
-    if (income > 0) {
-      this.$store.commit("addMoney", income);
-      this.testNumber.add(income);
+    const income = myNumber.mul(this.quantity, this.baseIncome);
+    if (income.az()) {
+      this.$game.addMoney(income);
     }
 
     this.working = false;
@@ -76,7 +95,6 @@ const Resource = function(config) {
       quantity: this.quantity,
       working: this.working,
       workValue: this.workValue,
-      testNumber: this.testNumber,
 
       ticks,
       fr
@@ -85,8 +103,7 @@ const Resource = function(config) {
 
   function load(data) {
     Object.assign(this, data);
-
-    this.testNumber = myNumber.fromObj(this.testNumber);
+    this.quantity = myNumber.fromObj(this.quantity);
 
     ticks = data.ticks;
     fr = data.fr;

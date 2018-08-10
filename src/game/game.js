@@ -1,6 +1,13 @@
+//
+//
+//
+
 import { Resources } from "@/game/resource";
 import { Managers } from "@/game/manager";
 
+import myNumber from "@/game/myNumber";
+
+//
 const Game = function() {
   //data
   this.resources = Resources;
@@ -12,21 +19,31 @@ const Game = function() {
   this.statistics = undefined;
 
   //properties
-  this.money = 0;
-  this.reincarnations = 0;
+  this.money = new myNumber(10, 1); //10k
 
   //methods
+  this.addMoney = function(moneyToAdd) {
+    this.money = myNumber.add(this.money, moneyToAdd);
+  };
+  this.getMoney = function(moneyToGet) {
+    let rem = myNumber.dec(this.money, moneyToGet);
+    //TODO: make a minus check!!
+    this.money = rem;
+    return true;
+  };
+  this.setMoney = function(moneyToSet) {
+    this.money = new myNumber(moneyToSet);
+  };
   this.advance = function(delta) {
     this.resources.forEach(res => res.advance(delta));
   };
-
   this.save = function() {
     let save = [];
 
     save.push({
       resources: this.resources.length,
       managers: this.managers.length,
-      money: this.$vue.$store.state.money,
+      money: this.money,
       mult: this.$vue.$store.state.buyMultiplier
     });
 
@@ -37,7 +54,6 @@ const Game = function() {
 
     this.$storage.setItem("IdleFrenzy", JSON.stringify(save));
   };
-
   this.load = function() {
     let data = this.$storage.getItem("IdleFrenzy");
     if (!data) return;
@@ -47,7 +63,8 @@ const Game = function() {
     let opts = save[0];
     let d = save[1];
 
-    this.$vue.$store.commit("setMoney", opts.money);
+    this.money = myNumber.fromObj(opts.money);
+
     this.$vue.$store.commit("setMultiplier", opts.mult);
 
     d.resources.forEach(res => {
@@ -62,7 +79,6 @@ const Game = function() {
       m.load(man);
     });
   };
-
   this.init = function(vm) {
     this.resources.forEach(res => {
       res.$store = vm.$store;
@@ -94,7 +110,7 @@ Game.install = function(Vue) {
     created() {
       if (!this.$parent && this._isVue) {
         this.$game.init(this);
-        this.$game.load();
+        //this.$game.load();
         this.$mainLoop.start();
       }
     }

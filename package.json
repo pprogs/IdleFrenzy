@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "keen-ui": "https://github.com/pprogs/Keen-UI.git",
+    "keen-ui": "file:../Keen-UI",
     "mainloop.js": "^1.0.4",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",

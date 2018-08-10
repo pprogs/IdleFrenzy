@@ -1,3 +1,6 @@
+//
+//
+//
 let myNumber = function(n, k) {
   this.number = Number(n || 0);
   this.k = Number(k || 0);
@@ -42,15 +45,19 @@ myNumber.prefixes = [
   "Duotrig"
 ];
 myNumber.fromObj = function(obj) {
-  return new myNumber(obj.number, obj.k);
+  return new myNumber(obj.number || obj.n, obj.k);
 };
 
 myNumber.prototype.add = addFunction(addNumbers);
 myNumber.prototype.dec = addFunction(decNumbers);
 myNumber.prototype.div = addFunction(divNumbers);
 myNumber.prototype.mul = addFunction(mulNumbers);
-myNumber.prototype.cmp = addFunction(compareNumbers);
 
+myNumber.prototype.cmp = function(b) {
+  if (typeof b === "object") return compareNumbers(this, b);
+  if (typeof b === "number") return compareNumbers(this, new myNumber(b, 0));
+  throw new Error("Expected Number or Object. Got " + typeof b);
+};
 myNumber.prototype.toString = function() {
   return this.format();
 };
@@ -69,9 +76,31 @@ myNumber.prototype.format = function() {
   let prefix = myNumber.prefixes[k];
   n = +n.toFixed(1);
 
-  return `${n} ${prefix}`;
+  let ret = `${n} ${prefix}`;
+
+  if (ret === "NaNK") console.error("format error");
+  return ret;
 };
 
+myNumber.prototype.az = function() {
+  return this.number > 0 || this.k > 0;
+};
+myNumber.prototype.eqz = function() {
+  return this.number === 0 && this.k === 0;
+};
+
+myNumber.add = addFunctionS(addNumbers);
+myNumber.dec = addFunctionS(decNumbers);
+myNumber.div = addFunctionS(divNumbers);
+myNumber.mul = addFunctionS(mulNumbers);
+
+function addFunctionS(func) {
+  return function(a, b) {
+    if (typeof a === "number") a = new myNumber(a);
+    if (typeof b === "number") b = new myNumber(b);
+    return myNumber.fromObj(func(a, b));
+  };
+}
 function addFunction(func) {
   return function(b) {
     let res;
@@ -85,7 +114,6 @@ function addFunction(func) {
     return this;
   };
 }
-
 function divNumbers(a, b) {
   let n = a.number / b.number;
   let k = a.k - b.k;
@@ -102,14 +130,12 @@ function divNumbers(a, b) {
 
   return reduce(n, k);
 }
-
 function mulNumbers(a, b) {
   let n = a.number * b.number;
   let k = a.k + b.k;
 
   return reduce(n, k);
 }
-
 function decNumbers(a, b) {
   let mink = Math.min(a.k, b.k);
   let samek = a.k === b.k;
@@ -125,7 +151,6 @@ function decNumbers(a, b) {
 
   return reduce(n, k);
 }
-
 function addNumbers(a, b) {
   let mink = Math.min(a.k, b.k);
   let samek = a.k === b.k;
@@ -141,7 +166,6 @@ function addNumbers(a, b) {
 
   return reduce(n, k);
 }
-
 function compareNumbers(a, b) {
   if (a.number > b.number && a.k >= b.k) return 1;
   if (a.number < b.number && a.k <= b.k) return -1;
@@ -152,7 +176,6 @@ function compareNumbers(a, b) {
   if (numa === numb) return 0;
   return numa > numb ? 1 : -1;
 }
-
 function reduce(n, k) {
   while (n > myNumber.precision) {
     n /= 1000;

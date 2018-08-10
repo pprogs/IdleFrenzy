@@ -1,15 +1,16 @@
 <template>
   <div>   
-    <ui-tabs type="icon-and-text">
-      <ui-tab icon="folder_open" title="Ресурсы">
-        <resources-view></resources-view>        
+    <ui-tabs type="text">
+      <ui-tab :alert-icon="resAlert" title="Ресурсы">
+        <resources-view></resources-view>   
+        <div slot="icon">blabla</div>     
       </ui-tab>
 
-      <ui-tab icon="priority_high" title="Менеджеры">
+      <ui-tab :alert-icon="manAlert" title="Менеджеры">
         <managers-view></managers-view>
       </ui-tab>
 
-      <ui-tab title="Ачивки">
+      <ui-tab :alert-icon="achiveAlert" title="Ачивки">
         <numbers-test></numbers-test>
       </ui-tab>
 
@@ -26,6 +27,17 @@ import ManagersView from "@/components/ManagersView";
 import NumbersTest from "@/components/NumbersTest";
 
 export default {
+  computed: {
+    resAlert: function() {
+      return false;
+    },
+    manAlert: function() {
+      return true;
+    },
+    achiveAlert: function() {
+      return false;
+    }
+  },
   components: {
     ResourcesView,
     ManagersView,

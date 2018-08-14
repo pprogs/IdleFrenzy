@@ -8,7 +8,7 @@
         size="small"
         :color="canBuy?'green':'red'"
         :disabled="!canBuy"
-        @click="buy">{{manager.bought ? 'Куплено' : $format(manager.cost)}}</ui-button>   
+        @click="buy">{{manager.bought ? 'Куплено' : manager.cost.format()}}</ui-button>   
     </span>
   </div>
 </template>
@@ -21,15 +21,15 @@ export default {
 
   computed: {
     canBuy: function() {
-      return this.manager.canBuy(this.$store.state.money);
+      return this.manager.canBuy(this.$game.money);
     }
   },
 
   methods: {
     buy: function() {
-      if (!this.manager.canBuy(this.$store.state.money)) return;
+      if (!this.manager.canBuy(this.$game.money)) return;
       this.manager.bought = true;
-      this.$store.commit("removeMoney", this.manager.cost);
+      this.$game.getMoney(this.manager.cost);
       let res = this.$game.resources.find(r => r.id === this.manager.rid);
       if (res) {
         res.hasManager = true;

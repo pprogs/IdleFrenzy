@@ -81,12 +81,18 @@ myNumber.prototype.format = function() {
   if (ret === "NaNK") console.error("format error");
   return ret;
 };
+myNumber.prototype.clone = function() {
+  return new myNumber(this.number, this.k);
+};
 
 myNumber.prototype.az = function() {
   return this.number > 0 || this.k > 0;
 };
 myNumber.prototype.eqz = function() {
   return this.number === 0 && this.k === 0;
+};
+myNumber.prototype.lez = function() {
+  return this.number <= 0 && this.k === 0;
 };
 
 myNumber.add = addFunctionS(addNumbers);

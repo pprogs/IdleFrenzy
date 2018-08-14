@@ -1,9 +1,11 @@
 const Manager = function(config) {
   Object.assign(this, config);
+
+  this.cost = new myNumber(this.cost);
   this.bought = false;
 
   this.canBuy = function(money) {
-    return !this.bought && money >= this.cost;
+    return !this.bought && money.cmp(this.cost) >= 0;
   };
 
   this.save = function() {
@@ -19,6 +21,7 @@ const Manager = function(config) {
 };
 
 import ManagersData from "./managers.json";
+import myNumber from "./myNumber";
 
 let Managers = [];
 

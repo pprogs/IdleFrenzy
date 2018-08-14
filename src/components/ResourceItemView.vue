@@ -7,7 +7,7 @@
       <td class="tdicon" rowspan="2">
         <div class="divs" @click.prevent="iconClick">
           <img class="icon" :src="require(`@/assets/${resource.icon}`)"/> 
-          <span class="iconLabel">{{resource.quantity.format()}}</span>
+          <span class="iconLabel">{{qtyLabel}}</span>
         </div>                   
         
       </td>
@@ -54,31 +54,38 @@ export default {
 
     buy() {
       if (this.canBuy) {
-        const qty = this.wantToBuy;
+        const qty = this.wantToBuy();
 
         if (this.resource.buy(qty)) {
           if (this.hasManager && !this.working) this.resource.startWork();
         }
       }
+    },
+
+    wantToBuy() {
+      return this.$store.state.buyMultiplier === 0
+        ? this.resource.howMuchCanBuy.clone()
+        : new myNumber(this.$store.state.buyMultiplier);
     }
   },
   computed: {
     cost: function() {
-      let wtb = this.wantToBuy;
+      let wtb = this.wantToBuy();
       return this.resource.costToBuy(wtb);
     },
     buyLabel: function() {
-      return `${this.$t("get")} ${this.wantToBuy.format()}`;
+      let wtb = this.wantToBuy();
+      return `${this.$t("get")} ${wtb.format()}`;
+    },
+    qtyLabel: function() {
+      return this.resource.quantity.format();
     },
     canBuy: function() {
-      let wtb = this.wantToBuy;
-      let cost = this.resource.costToBuy(wtb);
-      return cost.cmp(this.$game.money) <= 0;
-    },
-    wantToBuy: function() {
-      return this.$store.state.buyMultiplier === 0
-        ? this.resource.howMuchCanBuy(this.$game.money)
-        : new myNumber(this.$store.state.buyMultiplier);
+      let wtb = this.wantToBuy();
+      return (
+        this.resource.howMuchCanBuy.az() &&
+        this.resource.howMuchCanBuy.cmp(wtb) >= 0
+      );
     }
   }
 };

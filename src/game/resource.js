@@ -10,15 +10,16 @@ const Resource = function(config) {
   this.workValue = 0;
 
   //
-  this.quantity = new myNumber();
+  this.quantity = new myNumber(); //купленное кол-во
   this.cost = new myNumber(this.baseCost); //текущая стоимость
   this.income = new myNumber(); //текущий доход в секунду ips
+  this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
 
   //functions
   this.startWork = startWork;
-  this.howMuchCanBuy = howMuchCanBuy;
   this.costToBuy = costToBuy;
   this.buy = buy;
+  this.canBuyFor = canBuyFor;
 
   this.advance = advance;
   this.finishWork = finishWork;
@@ -29,27 +30,52 @@ const Resource = function(config) {
   let ticks = 0;
   let fr = 1000.0 / 30;
 
-  function howMuchCanBuy(money) {
-    let cost = this.cost;
-    let total = new myNumber();
+  function canBuyFor(money) {
+    if (money.lez()) return new myNumber();
     let qty = new myNumber();
+    let cost = this.cost.clone();
+    let total = new myNumber();
 
     for (;;) {
       total.add(cost);
-      if (total.cmp(money) >= 0) return qty;
+      if (total.cmp(money) > 0) return qty;
       qty.add(1);
       cost.mul(this.baseCostMult);
     }
   }
 
-  function costToBuy(qty) {
-    return myNumber.mul(qty, this.baseCost);
+  function costToBuy(qtyToBuy) {
+    if (qtyToBuy.lez()) return new myNumber();
+    let qty = qtyToBuy.clone();
+    let cost = this.cost.clone();
+    let total = new myNumber();
+
+    for (;;) {
+      total.add(cost);
+      qty.dec(1);
+      if (qty.lez()) return total;
+      cost.mul(this.baseCostMult);
+    }
   }
 
-  function buy(qty) {
-    let cost = this.costToBuy(qty);
-    if (!this.$game.getMoney(cost)) return false;
-    this.quantity.add(qty);
+  function buy(qtyToBuy) {
+    if (qtyToBuy.lez()) return new myNumber();
+    let qty = qtyToBuy.clone();
+    let cost = this.cost.clone();
+    let total = new myNumber();
+
+    for (;;) {
+      total.add(cost);
+      qty.dec(1);
+      cost.mul(this.baseCostMult);
+      if (qty.lez()) break;
+    }
+
+    if (!this.$game.getMoney(total)) return false;
+
+    this.cost = cost;
+    this.quantity = myNumber.add(this.quantity, qtyToBuy);
+
     return true;
   }
 
@@ -93,6 +119,7 @@ const Resource = function(config) {
       hasManager: this.hasManager,
       hidden: this.hidden,
       quantity: this.quantity,
+      cost: this.cost,
       working: this.working,
       workValue: this.workValue,
 
@@ -103,7 +130,9 @@ const Resource = function(config) {
 
   function load(data) {
     Object.assign(this, data);
+
     this.quantity = myNumber.fromObj(this.quantity);
+    this.cost = myNumber.fromObj(this.cost);
 
     ticks = data.ticks;
     fr = data.fr;

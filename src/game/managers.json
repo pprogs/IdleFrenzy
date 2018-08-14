@@ -10,14 +10,21 @@
     "id": "m_magazin",
     "desc": "m_d_magazin",
     "icon": "magaz.jpg",
-    "cost": 10000,
+    "cost": 6000,
     "rid" : "r_magazin"
   },
+  {
+    "id": "m_rest",
+    "desc": "m_d_rest",
+    "icon": "rest.jpg",
+    "cost": 55000,
+    "rid" : "r_rest"
+  },  
   {
     "id": "m_gaz",
     "desc": "m_d_gaz",
     "icon": "zap.jpg",
-    "cost": 100000,
+    "cost": 650000,
     "rid" : "r_gaz"
   }
 ]

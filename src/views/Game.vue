@@ -1,12 +1,11 @@
 <template>
   <div>   
     <ui-tabs type="text">
-      <ui-tab :alert-icon="resAlert" title="Ресурсы">
-        <resources-view></resources-view>   
-        <div slot="icon">blabla</div>     
+      <ui-tab :alert-icon="canBuyAnyResource" title="Ресурсы">
+        <resources-view></resources-view>        
       </ui-tab>
 
-      <ui-tab :alert-icon="manAlert" title="Менеджеры">
+      <ui-tab :alert-icon="canBuyAnyManager" title="Менеджеры">
         <managers-view></managers-view>
       </ui-tab>
 
@@ -18,6 +17,7 @@
         Статистика
       </ui-tab>
     </ui-tabs>
+
   </div>
 </template>
 
@@ -27,12 +27,17 @@ import ManagersView from "@/components/ManagersView";
 import NumbersTest from "@/components/NumbersTest";
 
 export default {
+  data: function() {
+    return {
+      game: this.$game
+    };
+  },
   computed: {
-    resAlert: function() {
-      return false;
+    canBuyAnyResource: function() {
+      return this.game.canBuyAnyResource;
     },
-    manAlert: function() {
-      return true;
+    canBuyAnyManager: function() {
+      return this.game.canBuyAnyManager;
     },
     achiveAlert: function() {
       return false;

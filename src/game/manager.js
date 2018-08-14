@@ -18,6 +18,20 @@ const Manager = function(config) {
   this.load = function(data) {
     Object.assign(this, data);
   };
+
+  this.reset = function() {
+    this.bought = false;
+  };
+
+  this.buy = function() {
+    if (!this.$game.getMoney(this.cost)) return false;
+    this.bought = true;
+    let res = this.$game.resources.find(r => r.id === this.rid);
+    if (res) {
+      res.hasManager = true;
+      res.startWork();
+    }
+  };
 };
 
 import ManagersData from "./managers.json";

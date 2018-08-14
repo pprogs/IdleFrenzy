@@ -4,16 +4,8 @@ const Resource = function(config) {
   Object.assign(this, config);
 
   //
-  this.hasManager = false;
-  this.hidden = true;
-  this.working = false;
-  this.workValue = 0;
-
-  //
-  this.quantity = new myNumber(); //купленное кол-во
-  this.cost = new myNumber(this.baseCost); //текущая стоимость
-  this.income = new myNumber(); //текущий доход в секунду ips
-  this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
+  this.reset = reset;
+  this.reset();
 
   //functions
   this.startWork = startWork;
@@ -30,6 +22,18 @@ const Resource = function(config) {
   let ticks = 0;
   let fr = 1000.0 / 30;
 
+  function reset() {
+    this.hasManager = false;
+    this.hidden = true;
+    this.working = false;
+    this.workValue = 0;
+
+    this.quantity = new myNumber(); //купленное кол-во
+    this.cost = new myNumber(this.baseCost); //текущая стоимость
+    this.income = new myNumber(); //текущий доход в секунду ips
+    this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
+  }
+  
   function canBuyFor(money) {
     if (money.lez()) return new myNumber();
     let qty = new myNumber();

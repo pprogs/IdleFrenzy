@@ -33,7 +33,9 @@ const Game = function() {
   };
   this.getMoney = function(moneyToGet) {
     let rem = myNumber.dec(this.money, moneyToGet);
-    //TODO: make a minus check!!
+
+    if (rem.bz()) return false;
+
     this.money = rem;
     this.refreshNumbers(true);
 
@@ -123,10 +125,17 @@ const Game = function() {
 
     this.refreshNumbers(true);
   };
+  //
+  //
+  //
   this.init = function(vm) {
     this.resources.forEach(res => {
       res.$store = vm.$store;
       res.$game = vm.$game;
+    });
+
+    this.managers.forEach(man => {
+      man.$game = vm.$game;
     });
 
     this.$vue = vm;
@@ -139,6 +148,15 @@ const Game = function() {
     vm.$on("unload", () => {
       this.save();
     });
+
+    this.refreshNumbers(true);
+  };
+
+  this.reset = function() {
+    this.money = new myNumber(100);
+
+    this.resources.forEach(res => res.reset());
+    this.managers.forEach(man => man.reset());
 
     this.refreshNumbers(true);
   };

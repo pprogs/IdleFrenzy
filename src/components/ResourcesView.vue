@@ -1,6 +1,6 @@
 <template>
   <div style="display:flex; flex-direction: column;justify-content: center;width:100%">
-    <h3>Всего денег : {{totalMoneyFormated}}</h3>
+    <h3>{{$t("ui_totalmoneylabel")}} : {{totalMoneyFormated}}</h3>
     
     <div class="container">
       <ui-radio-group
@@ -9,7 +9,7 @@
         :options="buyGroupData"
         :value="buyGroupValue"
         @change="multChanged"
-      >Сколько хочу взять</ui-radio-group>
+      ></ui-radio-group>
 
       <resource-list class="item" :resources="resources"/>
     </div>

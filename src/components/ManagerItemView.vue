@@ -27,14 +27,7 @@ export default {
 
   methods: {
     buy: function() {
-      if (!this.manager.canBuy(this.$game.money)) return;
-      this.manager.bought = true;
-      this.$game.getMoney(this.manager.cost);
-      let res = this.$game.resources.find(r => r.id === this.manager.rid);
-      if (res) {
-        res.hasManager = true;
-        res.startWork();
-      }
+      this.manager.buy();
     }
   }
 };

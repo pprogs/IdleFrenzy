@@ -1,19 +1,37 @@
 {
-    "title" : "Idle Frenzy",
-    "get" : "Взять",
+  "title": "Idle Frenzy",
+  "get": "Взять",
 
+  "r_palatka": "Палатка",
+  "r_magazin": "Магазин",
+  "r_rest": "Ресторан",
+  "r_gaz": "Заправка",
 
-    "r_palatka" : "Палатка",
-    "r_magazin" : "Магазин",
-    "r_rest": "Ресторан",
-    "r_gaz" : "Заправка",
+  "m_palatka": "Петя",
+  "m_d_palatka": "Low performance salesman",
+  "m_magazin": "Вася",
+  "m_d_magazin": "Not so good manager",
+  "m_gaz": "Миша",
+  "m_d_gaz": "Unpleasant and rude dude )",
+  "m_rest": "Соня",
+  "m_d_rest": "hmmm....",
 
-    "m_palatka": "Петя",
-    "m_d_palatka": "Low performance salesman",
-    "m_magazin": "Вася",
-    "m_d_magazin": "Not so good manager",
-    "m_gaz": "Миша",
-    "m_d_gaz": "Unpleasant and rude dude )",
-    "m_rest": "Sonya",
-    "m_d_rest": "hmmm...."    
+  "ui_reset_confirm_title": "Обнулить игру?",
+  "ui_reset_confirm_text": "Вы уверены, что хотите обнулить игру?",
+
+  "ui_cancel": "Отмена",
+  "ui_ok": "Ок",
+
+  "ui_resources": "РЕСУРСЫ",
+  "ui_managers": "МЕНЕДЖЕРЫ",
+  "ui_ahcivments": "ДОСТИЖЕНИЯ",
+  "ui_upgrades": "АПГРЕЙДЫ",
+  "ui_statistics": "СТАТИСТИКА",
+
+  "ui_totalmoneylabel": "Всего денег",
+
+  "ui_menu_game": "Игра",
+  "ui_menu_settings": "Настройки",
+  "ui_menu_login": "Вход",
+  "ui_menu_about": "О Игре"
 }

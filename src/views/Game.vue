@@ -1,19 +1,19 @@
 <template>
   <div>   
     <ui-tabs type="text">
-      <ui-tab :alert-icon="canBuyAnyResource" title="Ресурсы">
+      <ui-tab :alert-icon="canBuyAnyResource" :title="$t('ui_resources')">
         <resources-view></resources-view>        
       </ui-tab>
 
-      <ui-tab :alert-icon="canBuyAnyManager" title="Менеджеры">
+      <ui-tab :alert-icon="canBuyAnyManager" :title="$t('ui_managers')">
         <managers-view></managers-view>
       </ui-tab>
 
-      <ui-tab :alert-icon="achiveAlert" title="Ачивки">
+      <ui-tab :alert-icon="achiveAlert" :title="$t('ui_ahcivments')">
         <numbers-test></numbers-test>
       </ui-tab>
 
-      <ui-tab title="Статистика">
+      <ui-tab :title="$t('ui_statistics')">
         Статистика
       </ui-tab>
     </ui-tabs>

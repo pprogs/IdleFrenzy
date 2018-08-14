@@ -55,10 +55,7 @@ export default {
     buy() {
       if (this.canBuy) {
         const qty = this.wantToBuy();
-
-        if (this.resource.buy(qty)) {
-          if (this.hasManager && !this.working) this.resource.startWork();
-        }
+        this.resource.buy(qty);
       }
     },
 

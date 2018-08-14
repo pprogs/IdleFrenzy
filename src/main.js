@@ -4,8 +4,8 @@ import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 
-import loc from "./localization";
-loc(store);
+import { Loc } from "./localization";
+Loc(store);
 
 import KeenUI from "keen-ui";
 import "keen-ui/dist/keen-ui.css";

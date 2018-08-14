@@ -14,5 +14,24 @@
   "m_gaz": "Mihael",
   "m_d_gaz": "Unpleasant and rude dude )",
   "m_rest": "Sonya",
-  "m_d_rest": "hmmm...."
+  "m_d_rest": "hmmm....",
+
+  "ui_reset_confirm_title": "Reset game?",
+  "ui_reset_confirm_text": "Do you really whant to reset game?",
+
+  "ui_cancel": "Cancel",
+  "ui_ok": "Ok",
+
+  "ui_resources": "RESOURCES",
+  "ui_managers": "MANAGERS",
+  "ui_ahcivments": "ACHIVMENTS",
+  "ui_upgrades": "UPGRADES",
+  "ui_statistics": "STATISTICS",
+
+  "ui_totalmoneylabel": "Total money",
+
+  "ui_menu_game": "Game",
+  "ui_menu_settings": "Settings",
+  "ui_menu_login": "Login",
+  "ui_menu_about": "About"
 }

@@ -33,6 +33,19 @@
       <button @click.prevent="start">start</button>
       <button @click.prevent="end">end</button>
       <button @click.prevent="save">save</button>
+      <button @click.prevent="showResetConfirm">reset</button>
+      <br><button @click.prevent="checkLang">lang</button>
+
+      <ui-confirm
+        ref="resetConfirm"
+        :title="$t('ui_reset_confirm_title')"
+        :confirmButtonText="$t('ui_ok')"
+        :denyButtonText="$t('ui_cancel')"
+        @confirm="onConfirm"
+        @deny="onDeny"
+      >
+        {{$t("ui_reset_confirm_text")}}
+      </ui-confirm>
     </div>
 
   </div>
@@ -78,6 +91,26 @@ export default {
     },
     save() {
       this.$game.save();
+    },
+    reset() {
+      this.$game.reset();
+    },
+
+    showResetConfirm() {
+      this.$refs["resetConfirm"].open();
+    },
+
+    onConfirm() {
+      this.$game.reset();
+    },
+
+    onDeny() {
+      console.log("deny reset");
+    },
+
+    checkLang() {
+      var language = window.navigator.userLanguage || window.navigator.language;
+      alert(language);
     }
   }
 };

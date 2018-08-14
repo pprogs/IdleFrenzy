@@ -41,16 +41,20 @@ export default {
     return {
       menuOptions: [
         {
-          label: "Game"
+          label: this.$t("ui_menu_game"),
+          id: 1
         },
         {
-          label: "About"
+          label: this.$t("ui_menu_about"),
+          id: 2
         },
         {
-          label: "Settings"
+          label: this.$t("ui_menu_settings"),
+          id: 3
         },
         {
-          label: "Login"
+          label: this.$t("ui_menu_login"),
+          id: 4
         }
       ]
     };
@@ -58,10 +62,21 @@ export default {
 
   methods: {
     menuSelect(some) {
-      if (some.label === "About") {
-        this.$router.push("/about");
-      } else {
-        this.$router.push("/");
+      switch (some.id) {
+        case 1:
+          this.$router.push("/");
+          break;
+        case 2:
+          this.$router.push("/about");
+          break;
+        case 3:
+          this.$router.push("/settings");
+          break;
+        case 4:
+          this.$router.push("/login");
+          break;
+        default:
+          this.$router.push("/");
       }
     }
   }

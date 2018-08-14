@@ -1,5 +1,6 @@
 //
-//
+//TODO:
+//переделать работу с отрицательными значениями
 //
 let myNumber = function(n, k) {
   this.number = Number(n || 0);
@@ -87,6 +88,9 @@ myNumber.prototype.clone = function() {
 
 myNumber.prototype.az = function() {
   return this.number > 0 || this.k > 0;
+};
+myNumber.prototype.bz = function() {
+  return this.number < 0 && this.k === 0;
 };
 myNumber.prototype.eqz = function() {
   return this.number === 0 && this.k === 0;

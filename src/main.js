@@ -41,7 +41,11 @@ new Vue({
         false
       );
 
-      window.addEventListener("beforeunload", this.beforeUnload, false);
+      window.addEventListener("unload", this.beforeUnload, {
+        capture: true,
+        once: true,
+        passive: true
+      });
     });
   },
 
@@ -50,7 +54,5 @@ new Vue({
       "visibilitychange",
       this.handleVisibilityChange
     );
-
-    window.removeEventListener("beforeunload", this.beforeUnload);
   }
 }).$mount("#app");

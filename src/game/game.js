@@ -3,9 +3,7 @@
 //
 import { Resources } from "@/game/resource";
 import { Managers } from "@/game/manager";
-
 import myNumber from "@/game/myNumber";
-
 //
 //
 //
@@ -125,6 +123,18 @@ const Game = function() {
 
     this.refreshNumbers(true);
   };
+
+  this.visibility = function(vis) {
+    if (vis === "hidden") {
+      this.$mainLoop.stop();
+      this.save();
+      return;
+    }
+    if (vis === "visible") {
+      this.$mainLoop.start();
+      return;
+    }
+  };
   //
   //
   //
@@ -140,6 +150,7 @@ const Game = function() {
 
     this.$vue = vm;
     this.$storage = window.localStorage;
+    this.$mainLoop = vm.$mainLoop;
 
     vm.$mainLoop.setUpdate(delta => {
       this.advance(delta);
@@ -147,6 +158,10 @@ const Game = function() {
 
     vm.$on("unload", () => {
       this.save();
+    });
+
+    vm.$on("visibility", vis => {
+      this.visibility(vis);
     });
 
     this.refreshNumbers(true);
@@ -174,10 +189,8 @@ Game.install = function(Vue) {
     created() {
       //this.$store добавлен, т.к. в дев создается еще один инстанс
       if (!this.$parent && this._isVue && this.$store) {
-        console.log("created");
         this.$game.init(this);
         this.$game.load();
-        this.$mainLoop.start();
       }
     }
   });

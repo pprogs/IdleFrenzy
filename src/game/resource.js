@@ -32,8 +32,9 @@ const Resource = function(config) {
     this.cost = new myNumber(this.baseCost); //текущая стоимость
     this.income = new myNumber(); //текущий доход в секунду ips
     this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
+    this.incomeMult = new myNumber(1);
   }
-  
+
   function canBuyFor(money) {
     if (money.lez()) return new myNumber();
     let qty = new myNumber();
@@ -95,6 +96,7 @@ const Resource = function(config) {
     if (!this.working) return;
 
     const income = myNumber.mul(this.quantity, this.baseIncome);
+    income.mul(this.incomeMult);
     if (income.az()) {
       this.$game.addMoney(income);
     }

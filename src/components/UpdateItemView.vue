@@ -1,8 +1,7 @@
-
 <template>
   <div class="item">
-    <img class="icon" :src="require(`@/assets/${manager.icon}`)"/>
-    <span>{{$t(manager.id)}}</span>
+    
+    <span>{{$t(update.rid)}} {{update.name}}</span>
     <span>
       <ui-button 
         size="small"
@@ -15,22 +14,23 @@
 
 <script>
 export default {
-  props: {
-    manager: Object
+  props: ["update"],
+  data: function() {
+    return {};
   },
-
   computed: {
     canBuy: function() {
-      return this.manager.canBuy(this.$game.money);
+      return this.update.canBuy(this.$game.money);
     },
     label: function() {
-      return this.manager.bought ? "Куплено" : this.manager.cost.format();
+      return this.update.bought
+        ? this.$t("ui_bought")
+        : this.update.cost.format();
     }
   },
-
   methods: {
-    buy: function() {
-      this.manager.buy();
+    buy() {
+      this.update.buy();
     }
   }
 };

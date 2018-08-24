@@ -3,6 +3,8 @@
 //
 import { Resources } from "@/game/resource";
 import { Managers } from "@/game/manager";
+import { Updates } from "@/game/update";
+
 import myNumber from "@/game/myNumber";
 //
 //
@@ -13,9 +15,9 @@ const Game = function() {
 
   this.resources = Resources;
   this.managers = Managers;
+  this.updates = Updates;
 
   this.achivments = [];
-  this.upgrades = [];
 
   this.statistics = undefined;
 
@@ -24,6 +26,7 @@ const Game = function() {
 
   this.canBuyAnyManager = false;
   this.canBuyAnyResource = false;
+  this.canBuyAnyUpdate = false;
 
   //methods
   this.addMoney = function(moneyToAdd) {
@@ -68,6 +71,9 @@ const Game = function() {
 
     let m = this.managers.find(man => man.canBuy(this.money));
     this.canBuyAnyManager = m !== undefined;
+
+    let u = this.updates.find(upd => upd.canBuy(this.money));
+    this.canBuyAnyUpdate = u !== undefined;
   };
   //
   //
@@ -123,7 +129,9 @@ const Game = function() {
 
     this.refreshNumbers(true);
   };
-
+  //
+  //
+  //
   this.visibility = function(vis) {
     if (vis === "hidden") {
       this.$mainLoop.stop();
@@ -146,6 +154,10 @@ const Game = function() {
 
     this.managers.forEach(man => {
       man.$game = vm.$game;
+    });
+
+    this.updates.forEach(upd => {
+      upd.$game = vm.$game;
     });
 
     this.$vue = vm;
@@ -172,12 +184,14 @@ const Game = function() {
 
     this.resources.forEach(res => res.reset());
     this.managers.forEach(man => man.reset());
+    this.updates.forEach(upd => upd.reset());
 
     this.refreshNumbers(true);
   };
 };
 
 import MainLoop from "mainloop.js";
+
 MainLoop.setSimulationTimestep(1000 / 30);
 
 Game.install = function(Vue) {
@@ -191,6 +205,7 @@ Game.install = function(Vue) {
       if (!this.$parent && this._isVue && this.$store) {
         this.$game.init(this);
         this.$game.load();
+        this.$mainLoop.start();
       }
     }
   });

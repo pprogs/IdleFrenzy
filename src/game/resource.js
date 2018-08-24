@@ -1,5 +1,3 @@
-import myNumber from "@/game/myNumber";
-
 const Resource = function(config) {
   Object.assign(this, config);
 
@@ -12,6 +10,10 @@ const Resource = function(config) {
   this.costToBuy = costToBuy;
   this.buy = buy;
   this.canBuyFor = canBuyFor;
+
+  this.addSpeedMult = addSpeedMult;
+  this.addCostMult = addCostMult;
+  this.addIncomeMult = addIncomeMult;
 
   this.advance = advance;
   this.finishWork = finishWork;
@@ -33,7 +35,18 @@ const Resource = function(config) {
     this.income = new myNumber(); //текущий доход в секунду ips
     this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
     this.incomeMult = new myNumber(1);
+    this.speedMult = new myNumber(1);
   }
+
+  function addIncomeMult(mult) {
+    this.incomeMult = myNumber.mul(this.incomeMult, mult);
+  }
+
+  function addSpeedMult(mult) {
+    this.speedMult = myNumber.mul(this.speedMult, mult);
+  }
+
+  function addCostMult(mult) {}
 
   function canBuyFor(money) {
     if (money.lez()) return new myNumber();
@@ -88,15 +101,17 @@ const Resource = function(config) {
     if (this.working || this.quantity.eqz()) return;
 
     this.working = true;
-
-    ticks = Math.floor((this.baseTime * 1000) / fr) + 1;
+    let time = myNumber.mul(this.speedMult, this.baseTime).num();
+    ticks = Math.floor((time * 1000) / fr) + 1;
   }
 
   function finishWork() {
     if (!this.working) return;
 
-    const income = myNumber.mul(this.quantity, this.baseIncome);
-    income.mul(this.incomeMult);
+    const income = myNumber
+      .mul(this.quantity, this.baseIncome)
+      .mul(this.incomeMult);
+
     if (income.az()) {
       this.$game.addMoney(income);
     }
@@ -146,13 +161,12 @@ const Resource = function(config) {
 };
 
 import resourceData from "./resources.json";
+import myNumber from "@/game/myNumber";
 
 let Resources = [];
 
 resourceData.forEach(element => {
   Resources.push(new Resource(element));
 });
-
-console.log(Resources);
 
 export { Resources, Resource };

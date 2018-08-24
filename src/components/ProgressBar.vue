@@ -20,9 +20,10 @@ export default {
     styles: function() {
       return {
         width: `${this.value}%`,
-        animation: !this.animSpeed
-          ? ""
-          : `barberpole ${this.animSpeed}s linear infinite`
+        animation:
+          this.animSpeed === 0
+            ? ""
+            : `barberpole ${this.animSpeed}s linear infinite`
       };
     }
   }

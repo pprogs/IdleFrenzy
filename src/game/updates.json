@@ -1,0 +1,42 @@
+{
+  "r_palatka": [
+    {
+      "id": "u_1_1",
+      "name": "Speed x2",     
+      "cost" : 500,
+      "speedMult": 2,
+      "incomeMult": 0
+    }
+  ],
+
+  "r_magazin": [
+    {
+      "id": "u_2_1",
+      "name": "Profit x3",     
+      "cost" : 100,
+      "speedMult": 0,
+      "incomeMult": 3
+    }
+  ],
+
+  "r_rest": [
+    {
+      "id": "u_3_1",
+      "name": "Speed x1.5",     
+      "cost" : 300,
+      "speedMult": 1.5,
+      "incomeMult": 0
+    }
+  ],
+
+  "r_gaz": [
+    {
+      "id": "u_4_1",
+      "name": "Speed x3.5",     
+      "cost" : 200,
+      "speedMult": 3.5,
+      "incomeMult": 0
+    }
+  ]
+
+}

@@ -85,16 +85,20 @@ myNumber.prototype.format = function() {
 myNumber.prototype.clone = function() {
   return new myNumber(this.number, this.k);
 };
-
+//compare numbers
+//above zero
 myNumber.prototype.az = function() {
   return this.number > 0 || this.k > 0;
 };
+//below zero
 myNumber.prototype.bz = function() {
   return this.number < 0 && this.k === 0;
 };
+//equal zero
 myNumber.prototype.eqz = function() {
   return this.number === 0 && this.k === 0;
 };
+//less zero
 myNumber.prototype.lez = function() {
   return this.number <= 0 && this.k === 0;
 };
@@ -103,6 +107,11 @@ myNumber.add = addFunctionS(addNumbers);
 myNumber.dec = addFunctionS(decNumbers);
 myNumber.div = addFunctionS(divNumbers);
 myNumber.mul = addFunctionS(mulNumbers);
+myNumber.cmp = function(a, b) {
+  let aa = a instanceof myNumber ? a : new myNumber(a);
+  let bb = b instanceof myNumber ? b : new myNumber(b);
+  return compareNumbers(aa, bb);
+};
 
 function addFunctionS(func) {
   return function(a, b) {
@@ -114,7 +123,7 @@ function addFunctionS(func) {
 function addFunction(func) {
   return function(b) {
     let res;
-    if (typeof b === "object") res = func(this, b);
+    if (b instanceof myNumber) res = func(this, b);
     else if (typeof b === "number") res = func(this, new myNumber(b, 0));
     else throw new Error("Expected Number or object. Got " + typeof b);
 

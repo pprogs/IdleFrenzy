@@ -6,10 +6,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     buyMultiplier: 1,
+    showAllUpdates: true,
     money: 10000000
   },
 
   mutations: {
+    setShowAllUpdates: function(state, showAll) {
+      state.showAllUpdates = showAll;
+    },
     setMultiplier: function(state, multiplier) {
       state.buyMultiplier = multiplier;
     },

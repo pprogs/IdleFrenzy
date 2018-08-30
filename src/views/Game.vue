@@ -1,13 +1,17 @@
 <template>
   <div ref="pandiv">   
     <ui-tabs ref="tabs" type="text">
-      <ui-tab :alert-icon="canBuyAnyResource" :title="$t('ui_resources')">
-        <resources-view></resources-view>        
-      </ui-tab>
+      <transition name="fade" mode="out-in">
+        <ui-tab :alert-icon="canBuyAnyResource" :title="$t('ui_resources')">
+          <resources-view></resources-view>
+        </ui-tab>
+      </transition>
 
-      <ui-tab :alert-icon="canBuyAnyManager" :title="$t('ui_managers')">
-        <managers-view></managers-view>
-      </ui-tab>
+      <transition name="fade" mode="out-in">
+        <ui-tab :alert-icon="canBuyAnyManager" :title="$t('ui_managers')">
+          <managers-view></managers-view>
+        </ui-tab>
+      </transition>
 
       <ui-tab :alert-icon="canBuyAnyUpdate" :title="$t('ui_upgrades')">
         <updates-view></updates-view>
@@ -20,6 +24,7 @@
       <ui-tab :title="$t('ui_statistics')">
         Статистика
       </ui-tab>
+
     </ui-tabs>
 
   </div>
@@ -76,3 +81,13 @@ export default {
   }
 };
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

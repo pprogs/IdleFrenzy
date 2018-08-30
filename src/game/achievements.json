@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "resType": "manager",
+    "checkType": "quantity",
+    "checkOp": "ab",
+    "checkNumber": 0,
+    "Name": "First manager"
+  },
+  {
+    "id": 2,
+    "resType": "manager",
+    "checkType": "quantity",
+    "checkOp": "eq",
+    "checkNumber": 10,
+    "Name": "Get all managers"
+  },
+  {
+    "id": 3,
+    "resType": "money",
+    "checkType": "quantity",
+    "checkOp": "ab",
+    "checkNumber": 100,
+    "Name": "First moneys!!"
+  },
+  {
+    "id": 4,
+    "resType": "money",
+    "checkType": "quantity",
+    "checkOp": "ab",
+    "checkNumber": "1000000",
+    "Name": "I'm a millioniare!!"
+  }
+]

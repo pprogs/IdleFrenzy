@@ -1,30 +1,53 @@
+//
 const Update = function(config) {
   Object.assign(this, config);
 
   this.cost = new myNumber(this.cost);
   this.bought = false;
+};
 
-  this.canBuy = function(money) {
-    return !this.bought && money.cmp(this.cost) >= 0;
-  };
-  this.reset = function() {
-    this.bought = false;
-  };
-  this.buy = function() {
-    if (!this.$game.getMoney(this.cost)) return false;
-    this.bought = true;
-    let res = this.$game.resources.find(r => r.id === this.rid);
-    if (res) {
-      if (this.speedMult !== 0) {
-        res.addSpeedMult(this.speedMult);
-      }
-      if (this.incomeMult !== 0) {
-        res.addIncomeMult(this.incomeMult);
-      }
-    }
+//check if we can buy this upgrade for given money
+Update.prototype.canBuy = function(money) {
+  return !this.bought && money.cmp(this.cost) >= 0;
+};
+
+//reset state
+Update.prototype.reset = function() {
+  this.bought = false;
+};
+
+//buy this upgrade and apply bonuses to resource
+Update.prototype.buy = function() {
+  if (!this.$game.getMoney(this.cost)) return false;
+  this.bought = true;
+  this.applyMultipliers();
+};
+
+//apply multipliers to binded resource
+Update.prototype.applyMultipliers = function() {
+  let res = this.$game.resources.find(r => r.id === this.rid);
+  if (res) {
+    res.applyMultipliers(this.incomeMult, this.speedMult);
+  }
+};
+
+//return object that is saved to json
+Update.prototype.save = function() {
+  return {
+    id: this.id,
+    bought: this.bought
   };
 };
 
+//load from json object and reapply multipliers if bought
+Update.prototype.load = function(data) {
+  this.bought = data.bought;
+  if (this.bought) {
+    this.applyMultipliers();
+  }
+};
+
+//some strange activity
 import updatesData from "./updates.json";
 import myNumber from "./myNumber";
 

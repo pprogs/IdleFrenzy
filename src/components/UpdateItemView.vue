@@ -1,14 +1,14 @@
 <template>
-  <div class="item">
+  <div class="item-container">
     
-    <span>{{$t(update.rid)}} {{update.name}}</span>
-    <span>
+    <div class="item">{{$t(update.rid)}} {{update.name}}</div>
+    <div class="item">
       <ui-button 
         size="small"
         :color="canBuy?'green':'red'"
         :disabled="!canBuy"
         @click="buy">{{label}}</ui-button>   
-    </span>
+    </div>
   </div>
 </template>
 
@@ -37,12 +37,12 @@ export default {
 </script>
 
 <style scoped>
-.icon {
-  width: 64px;
-  height: 64px;
+.item-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .item {
-  vertical-align: middle;
+  width: 50%;
 }
 </style>

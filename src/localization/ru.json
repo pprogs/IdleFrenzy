@@ -6,6 +6,7 @@
   "r_magazin": "Магазин",
   "r_rest": "Ресторан",
   "r_gaz": "Заправка",
+  "r_hotel": "Отель",
 
   "m_palatka": "Петя",
   "m_d_palatka": "Low performance salesman",
@@ -15,6 +16,8 @@
   "m_d_gaz": "Unpleasant and rude dude )",
   "m_rest": "Соня",
   "m_d_rest": "hmmm....",
+  "m_hotel": "Леора",
+  "m_d_hotel": "Лучший знаток отельного бизнеса!",    
 
   "ui_reset_confirm_title": "Обнулить игру?",
   "ui_reset_confirm_text": "Вы уверены, что хотите обнулить игру?",

@@ -30,5 +30,14 @@
     "baseCost": 16000,
     "baseTime": 7,
     "baseCostMult": 1.10
+  },
+  {
+    "id": "r_hotel",
+    "icon": "hotel.jpg",
+    "baseIncome": 800,
+    "baseCost": 20000,
+    "baseTime": 12,
+    "baseCostMult": 1.10
   }
+
 ]

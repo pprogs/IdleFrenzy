@@ -10,11 +10,6 @@ const Resource = function(config) {
   this.costToBuy = costToBuy;
   this.buy = buy;
   this.canBuyFor = canBuyFor;
-
-  this.addSpeedMult = addSpeedMult;
-  this.addCostMult = addCostMult;
-  this.addIncomeMult = addIncomeMult;
-
   this.advance = advance;
   this.finishWork = finishWork;
   this.save = save;
@@ -32,22 +27,16 @@ const Resource = function(config) {
 
     this.quantity = new myNumber(); //купленное кол-во
     this.cost = new myNumber(this.baseCost); //текущая стоимость
-    this.income = new myNumber(); //текущий доход в секунду ips
     this.howMuchCanBuy = new myNumber(); //сколько доступно к покупке
-    this.incomeMult = new myNumber(1);
-    this.speedMult = new myNumber(1);
+
+    this.incomeMult = new myNumber(1); //total incomeMultiplier
+    this.income = new myNumber(); //текущий доход в секунду ips
+
+    this.workTime = 0;
+    this.speedMult = 1; //total speed multiplier
   }
 
-  function addIncomeMult(mult) {
-    this.incomeMult = myNumber.mul(this.incomeMult, mult);
-  }
-
-  function addSpeedMult(mult) {
-    this.speedMult = myNumber.mul(this.speedMult, mult);
-  }
-
-  function addCostMult(mult) {}
-
+  //how much items can be bought for that money
   function canBuyFor(money) {
     if (money.lez()) return new myNumber();
     let qty = new myNumber();
@@ -62,6 +51,7 @@ const Resource = function(config) {
     }
   }
 
+  //how much it will cost to but qtyToBuy items
   function costToBuy(qtyToBuy) {
     if (qtyToBuy.lez()) return new myNumber();
     let qty = qtyToBuy.clone();
@@ -93,27 +83,22 @@ const Resource = function(config) {
 
     this.cost = cost;
     this.quantity = myNumber.add(this.quantity, qtyToBuy);
+    this.recalculate();
 
     return true;
   }
 
   function startWork() {
     if (this.working || this.quantity.eqz()) return;
-
     this.working = true;
-    let time = myNumber.mul(this.speedMult, this.baseTime).num();
-    ticks = Math.floor((time * 1000) / fr) + 1;
+    ticks = Math.floor(this.workTime / fr) + 1;
   }
 
   function finishWork() {
     if (!this.working) return;
 
-    const income = myNumber
-      .mul(this.quantity, this.baseIncome)
-      .mul(this.incomeMult);
-
-    if (income.az()) {
-      this.$game.addMoney(income);
+    if (this.income.az()) {
+      this.$game.addMoney(this.income);
     }
 
     this.working = false;
@@ -127,8 +112,7 @@ const Resource = function(config) {
     ticks--;
 
     if (ticks >= 0) {
-      this.workValue =
-        (100 * (this.baseTime * 1000 - ticks * fr)) / (this.baseTime * 1000);
+      this.workValue = (100 * (this.workTime - ticks * fr)) / this.workTime;
     } else {
       this.finishWork();
     }
@@ -154,11 +138,31 @@ const Resource = function(config) {
 
     this.quantity = myNumber.fromObj(this.quantity);
     this.cost = myNumber.fromObj(this.cost);
+    this.recalculate();
 
     ticks = data.ticks;
     fr = data.fr;
   }
 };
+
+Resource.prototype.recalculate = function() {
+  this.workTime = Math.floor((this.baseTime / this.speedMult) * 1000);
+  this.income = myNumber
+    .mul(this.quantity, this.baseIncome)
+    .mul(this.incomeMult);
+};
+
+Resource.prototype.addMultipliers = function(income, speed) {
+  if (income > 0) {
+    this.incomeMult = myNumber.mul(this.incomeMult, income);
+  }
+  if (speed > 0) {
+    this.speedMult = this.speedMult * speed;
+  }
+  this.recalculate();
+};
+
+//some strange actions
 
 import resourceData from "./resources.json";
 import myNumber from "@/game/myNumber";

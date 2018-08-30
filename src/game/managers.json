@@ -24,7 +24,14 @@
     "id": "m_gaz",
     "desc": "m_d_gaz",
     "icon": "zap.jpg",
-    "cost": 650000,
+    "cost": 100000,
     "rid" : "r_gaz"
+  },  
+  {
+    "id": "m_hotel",
+    "desc": "m_d_hotel",
+    "icon": "hotel.jpg",
+    "cost": 200000,
+    "rid" : "r_hotel"
   }
 ]

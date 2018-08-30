@@ -2,20 +2,27 @@
   "r_palatka": [
     {
       "id": "u_1_1",
-      "name": "Speed x2",     
-      "cost" : 500,
-      "speedMult": 2,
-      "incomeMult": 0
+      "name": "Profit x2",     
+      "cost" : 100000,
+      "speedMult": 0,
+      "incomeMult": 2      
+    },
+    {
+      "id": "u_1_2",
+      "name": "Profit x2",     
+      "cost" : 150000,
+      "speedMult": 0,
+      "incomeMult": 2      
     }
   ],
 
   "r_magazin": [
     {
       "id": "u_2_1",
-      "name": "Profit x3",     
-      "cost" : 100,
+      "name": "Profit x2",     
+      "cost" : 180000,
       "speedMult": 0,
-      "incomeMult": 3
+      "incomeMult": 2
     }
   ],
 
@@ -23,7 +30,7 @@
     {
       "id": "u_3_1",
       "name": "Speed x1.5",     
-      "cost" : 300,
+      "cost" : 200000,
       "speedMult": 1.5,
       "incomeMult": 0
     }
@@ -33,7 +40,7 @@
     {
       "id": "u_4_1",
       "name": "Speed x3.5",     
-      "cost" : 200,
+      "cost" : 250000,
       "speedMult": 3.5,
       "incomeMult": 0
     }

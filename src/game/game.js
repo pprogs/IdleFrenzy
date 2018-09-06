@@ -1,28 +1,29 @@
 //
 import { Resources } from "@/game/resource";
 import { Managers } from "@/game/manager";
-import { Updates } from "@/game/update";
+import { Updates } from "@/game/upgrade";
 
 import myNumber from "@/game/myNumber";
 import Statistics from "@/game/statistics";
 
 //
 const Game = function() {
-  Game.Version = "0.000003";
+  Game.Version = "0.000007";
 
   this.resources = Resources;
   this.managers = Managers;
   this.updates = Updates;
 
-  this.achivments = [];
-
   this.$events = [];
   this.$handlers = Object.create(null);
 
-  this.statistics = new Statistics();
+  //statistics first! achievements after,
+  //`cos game events should run in this order
+  this.statistics = new Statistics(this);
+  this.achievements = new Achievements(this);
 
   //properties
-  this.money = new myNumber(100, 0);
+  this.money = new myNumber();
 
   this.canBuyAnyManager = false;
   this.canBuyAnyResource = false;
@@ -31,8 +32,11 @@ const Game = function() {
   //methods
   this.addMoney = function(moneyToAdd) {
     this.money = myNumber.add(this.money, moneyToAdd);
+    this.refreshNumbers(true);
+
     this.$emit("addMoney", moneyToAdd.clone());
   };
+  //
   this.getMoney = function(moneyToGet) {
     let rem = myNumber.dec(this.money, moneyToGet);
 
@@ -41,14 +45,15 @@ const Game = function() {
     this.money = rem;
     this.refreshNumbers(true);
 
+    this.$emit("getMoney", moneyToGet.clone());
+
     return true;
   };
+  //
   this.setMoney = function(moneyToSet) {
     this.money = new myNumber(moneyToSet);
     this.refreshNumbers(true);
   };
-  //
-  //
   //
   this.advance = function(delta) {
     let money = this.money.clone();
@@ -58,26 +63,22 @@ const Game = function() {
     this.callEvents();
   };
   //
-  //
-  //
   this.refreshNumbers = function(moneyChanged) {
     if (moneyChanged) {
       this.resources.forEach(res => {
         res.howMuchCanBuy = res.canBuyFor(this.money);
       });
+
+      let r = this.resources.find(res => res.howMuchCanBuy.az());
+      this.canBuyAnyResource = r !== undefined;
+
+      let m = this.managers.find(man => man.canBuy(this.money));
+      this.canBuyAnyManager = m !== undefined;
+
+      let u = this.updates.find(upd => upd.canBuy(this.money));
+      this.canBuyAnyUpdate = u !== undefined;
     }
-
-    let r = this.resources.find(res => res.howMuchCanBuy.az());
-    this.canBuyAnyResource = r !== undefined;
-
-    let m = this.managers.find(man => man.canBuy(this.money));
-    this.canBuyAnyManager = m !== undefined;
-
-    let u = this.updates.find(upd => upd.canBuy(this.money));
-    this.canBuyAnyUpdate = u !== undefined;
   };
-  //
-  //
   //
   this.save = function() {
     let save = [];
@@ -93,17 +94,16 @@ const Game = function() {
     save.push({
       managers: this.managers.map(man => man.save()),
       resources: this.resources.map(res => res.save()),
-      upgrades: this.updates.map(upg => upg.save())
+      upgrades: this.updates.map(upg => upg.save()),
+      stats: this.statistics.save()
     });
 
     this.$storage.setItem("IdleFrenzy", JSON.stringify(save));
   };
   //
-  //
-  //
   this.load = function() {
     let data = this.$storage.getItem("IdleFrenzy");
-    if (!data) return;
+    if (!data) return false;
 
     let save = JSON.parse(data);
 
@@ -111,7 +111,9 @@ const Game = function() {
     let d = save[1];
     let v = opts.version || 0;
 
-    if (v !== Game.Version) return;
+    if (v !== Game.Version) {
+      return false;
+    }
 
     this.money = myNumber.fromObj(opts.money);
     this.$vue.$store.commit("setMultiplier", opts.mult);
@@ -134,10 +136,12 @@ const Game = function() {
       u.load(upg);
     });
 
+    this.statistics.load(d.stats);
+
     this.refreshNumbers(true);
+
+    return true;
   };
-  //
-  //
   //
   this.visibility = function(vis) {
     if (vis === "hidden") {
@@ -151,18 +155,14 @@ const Game = function() {
     }
   };
   //
-  //
-  //
   this.init = function(vm) {
     this.resources.forEach(res => {
       res.$store = vm.$store;
       res.$game = vm.$game;
     });
-
     this.managers.forEach(man => {
       man.$game = vm.$game;
     });
-
     this.updates.forEach(upd => {
       upd.$game = vm.$game;
     });
@@ -185,29 +185,33 @@ const Game = function() {
 
     this.refreshNumbers(true);
   };
-
-  this.reset = function() {
-    this.money = new myNumber(100);
+  //
+  this.reset = function(all) {
+    this.money = new myNumber();
 
     this.resources.forEach(res => res.reset());
     this.managers.forEach(man => man.reset());
     this.updates.forEach(upd => upd.reset());
 
+    this.statistics.reset(all);
+
+    this.addMoney(new myNumber(100));
     this.refreshNumbers(true);
   };
 };
 
 Game.prototype.callEvents = function() {
-  this.$events.forEach(ev => {
-    const event = ev.event;
-    if (!this.$handlers[event] || this.$handlers[event].length === 0) {
-      return;
-    }
-    this.$handlers[event].forEach(h => {
-      h.cb.call(h.self, ev.payload);
-    });
-  });
+  const events = this.$events;
   this.$events = [];
+
+  events.forEach(ev => {
+    const event = ev.event;
+    if (this.$handlers[event] && this.$handlers[event].length > 0) {
+      this.$handlers[event].forEach(h => {
+        h.cb.call(h.self, event, ev.payload, h.tag);
+      });
+    }
+  });
 };
 
 Game.prototype.$emit = function(event, payload) {
@@ -215,26 +219,27 @@ Game.prototype.$emit = function(event, payload) {
   this.$events.push({ event, payload });
 };
 
-Game.prototype.$on = function(event, cb, self) {
+Game.prototype.$on = function(event, cb, self, tag) {
   if (!this.$handlers[event]) {
     this.$handlers[event] = [];
   }
-  this.$handlers[event].push({ cb, self });
+  this.$handlers[event].push({ cb, self, tag });
+};
+
+Game.prototype.$clear = function(event, cb) {
+  if (!this.$handlers[event]) return;
+  const idx = this.$handlers[event].findIndex(h => h.cb === cb);
+  if (idx !== -1) this.$handlers[event].splice(idx, 1);
 };
 
 //some strange actions
 import MainLoop from "mainloop.js";
+import Achievements from "./achievements";
 
 MainLoop.setSimulationTimestep(1000 / 30);
 
-const check = function(moneys) {
-  console.log("EVENT:" + moneys.toString());
-}
-
 Game.install = function(Vue) {
   Vue.prototype.$game = new Game();
-  Vue.prototype.$game.$on("addMoney", check);
-
   Vue.prototype.$mainLoop = MainLoop;
 
   //не самое лучшее решение, но рабочее )
@@ -243,7 +248,9 @@ Game.install = function(Vue) {
       //this.$store добавлен, т.к. в дев создается еще один инстанс
       if (!this.$parent && this._isVue && this.$store) {
         this.$game.init(this);
-        this.$game.load();
+
+        if (!this.$game.load()) this.$game.reset(true);
+
         this.$mainLoop.start();
       }
     }

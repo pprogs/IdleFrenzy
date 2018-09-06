@@ -26,6 +26,7 @@ const Manager = function(config) {
   this.buy = function() {
     if (!this.$game.getMoney(this.cost)) return false;
     this.bought = true;
+    this.$game.$emit("getManager", this);
     let res = this.$game.resources.find(r => r.id === this.rid);
     if (res) {
       res.hasManager = true;

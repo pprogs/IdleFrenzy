@@ -20,6 +20,7 @@ Update.prototype.reset = function() {
 Update.prototype.buy = function() {
   if (!this.$game.getMoney(this.cost)) return false;
   this.bought = true;
+  this.$game.$emit("getUpgrade", this);
   this.applyMultipliers();
 };
 
@@ -27,7 +28,7 @@ Update.prototype.buy = function() {
 Update.prototype.applyMultipliers = function() {
   let res = this.$game.resources.find(r => r.id === this.rid);
   if (res) {
-    res.applyMultipliers(this.incomeMult, this.speedMult);
+    res.addMultipliers(this.incomeMult, this.speedMult);
   }
 };
 
@@ -48,13 +49,13 @@ Update.prototype.load = function(data) {
 };
 
 //some strange activity
-import updatesData from "./updates.json";
+import upgradesData from "./upgrades.json";
 import myNumber from "./myNumber";
 
 const Updates = [];
 
-for (let r in updatesData) {
-  updatesData[r].forEach(upd => {
+for (let r in upgradesData) {
+  upgradesData[r].forEach(upd => {
     let u = new Update(upd);
     u.rid = r;
     Updates.push(u);

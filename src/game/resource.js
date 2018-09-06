@@ -85,6 +85,8 @@ const Resource = function(config) {
     this.quantity = myNumber.add(this.quantity, qtyToBuy);
     this.recalculate();
 
+    this.$game.$emit("getResource", { resource: this, qty: qtyToBuy.clone() });
+
     return true;
   }
 

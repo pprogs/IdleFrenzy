@@ -22,7 +22,7 @@
       </ui-tab>
 
       <ui-tab :title="$t('ui_statistics')">
-        Статистика
+        <statistics-view></statistics-view>
       </ui-tab>
 
     </ui-tabs>
@@ -35,6 +35,7 @@ import ResourcesView from "@/components/ResourcesView";
 import ManagersView from "@/components/ManagersView";
 import UpdatesView from "@/components/UpdatesView";
 import NumbersTest from "@/components/NumbersTest";
+import StatisticsView from "@/components/StatisticsView";
 
 import Hammer from "hammerjs";
 
@@ -62,7 +63,8 @@ export default {
     ResourcesView,
     ManagersView,
     NumbersTest,
-    UpdatesView
+    UpdatesView,
+    StatisticsView
   },
 
   mounted() {

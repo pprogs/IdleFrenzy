@@ -1,34 +1,54 @@
 [
   {
     "id": 1,
-    "resType": "manager",
-    "checkType": "quantity",
-    "checkOp": "ab",
-    "checkNumber": 0,
-    "Name": "First manager"
+    "name": "First manager",
+    "icon": "achievement.jpg",
+    "rules": [
+      {
+        "resType": "manager",
+        "checkType": "quantity",
+        "checkOp": "ab",
+        "checkNumber": 0
+      }
+    ]
   },
   {
     "id": 2,
-    "resType": "manager",
-    "checkType": "quantity",
-    "checkOp": "eq",
-    "checkNumber": 10,
-    "Name": "Get all managers"
+    "name": "Get all managers",
+    "icon": "achievement.jpg",
+    "rules": [
+      {
+        "resType": "manager",
+        "checkType": "quantity",
+        "checkOp": "eq",
+        "checkNumber": 10
+      }
+    ]
   },
   {
     "id": 3,
-    "resType": "money",
-    "checkType": "quantity",
-    "checkOp": "ab",
-    "checkNumber": 100,
-    "Name": "First moneys!!"
+    "name": "First moneys!!",
+    "icon": "achievement.jpg",
+    "rules": [
+      {
+        "resType": "money",
+        "checkType": "onhand",
+        "checkOp": "ab",
+        "checkNumber": 100
+      }
+    ]
   },
   {
     "id": 4,
-    "resType": "money",
-    "checkType": "quantity",
-    "checkOp": "ab",
-    "checkNumber": "1000000",
-    "Name": "I'm a millioniare!!"
+    "name": "I'm a millioniare!!",
+    "icon": "achievement.jpg",
+    "rules": [
+      {
+        "resType": "money",
+        "checkType": "quantity",
+        "checkOp": "ab",
+        "checkNumber": "1000000"
+      }
+    ]
   }
 ]

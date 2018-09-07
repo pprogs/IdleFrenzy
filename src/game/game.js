@@ -8,7 +8,7 @@ import Statistics from "@/game/statistics";
 
 //
 const Game = function() {
-  Game.Version = "0.000007";
+  Game.Version = "0.000009";
 
   this.resources = Resources;
   this.managers = Managers;
@@ -95,7 +95,8 @@ const Game = function() {
       managers: this.managers.map(man => man.save()),
       resources: this.resources.map(res => res.save()),
       upgrades: this.updates.map(upg => upg.save()),
-      stats: this.statistics.save()
+      stats: this.statistics.save(),
+      ach: this.achievements.save()
     });
 
     this.$storage.setItem("IdleFrenzy", JSON.stringify(save));
@@ -137,6 +138,7 @@ const Game = function() {
     });
 
     this.statistics.load(d.stats);
+    this.achievements.load(d.ach);
 
     this.refreshNumbers(true);
 
@@ -194,6 +196,8 @@ const Game = function() {
     this.updates.forEach(upd => upd.reset());
 
     this.statistics.reset(all);
+
+    if (all) this.achievements.reset();
 
     this.addMoney(new myNumber(100));
     this.refreshNumbers(true);

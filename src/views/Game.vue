@@ -18,6 +18,7 @@
       </ui-tab>
 
       <ui-tab :alert-icon="achiveAlert" :title="$t('ui_ahcivments')">
+        <achievements-view></achievements-view>
         <numbers-test></numbers-test>
       </ui-tab>
 
@@ -26,14 +27,23 @@
       </ui-tab>
 
     </ui-tabs>
-
+    
+    <ui-snackbar-container
+      ref="snackbarContainer"
+      position="center"
+      transition="slide"
+      allowHtml.boolean=true
+      queue-snackbars.boolean=true
+    ></ui-snackbar-container>
   </div>
 </template>
 
 <script>
-import ResourcesView from "@/components/ResourcesView";
-import ManagersView from "@/components/ManagersView";
-import UpdatesView from "@/components/UpdatesView";
+import ResourcesView from "@/components/resources/ResourcesView";
+import ManagersView from "@/components/managers/ManagersView";
+import UpdatesView from "@/components/upgrades/UpdatesView";
+import AchievementsView from "@/components/achievements/AchievementsView";
+
 import NumbersTest from "@/components/NumbersTest";
 import StatisticsView from "@/components/StatisticsView";
 
@@ -45,6 +55,7 @@ export default {
       game: this.$game
     };
   },
+
   computed: {
     canBuyAnyResource: function() {
       return this.game.canBuyAnyResource;
@@ -59,12 +70,25 @@ export default {
       return false;
     }
   },
+
+  methods: {
+    showAchievementSnackbar(ev, ach) {
+      console.log("test");
+
+      this.$refs.snackbarContainer.createSnackbar({
+        message: `You've got an achievement!<br>${ach.name}`,
+        duration: 3000
+      });
+    }
+  },
+
   components: {
     ResourcesView,
     ManagersView,
     NumbersTest,
     UpdatesView,
-    StatisticsView
+    StatisticsView,
+    AchievementsView
   },
 
   mounted() {
@@ -80,6 +104,12 @@ export default {
         this.$refs.tabs.selectPreviousTab();
       }
     });
+
+    this.game.$on("getAchievement", this.showAchievementSnackbar, this);
+  },
+
+  beforeDestroy() {
+    this.game.$clear("getAchievement", this.showAchievementSnackbar);
   }
 };
 </script>

@@ -10,17 +10,15 @@ const Achievements = function(game) {
   this.notDone = Object.create(null);
 
   this.$game = game;
-  this.$stat = game.statistics;
+  this.$stats = game.statistics;
 
   // load data
   achievementsData.forEach(data => {
     let a = new achievement(data);
     this.all.push(a);
-
-    a.rules.forEach(rule => {
-      this.notDone[rule.resType] = a;
-    });
   });
+
+  this.reset();
 
   this.checks = {
     manager: checkManagerRule,
@@ -38,29 +36,66 @@ const Achievements = function(game) {
   game.$on("getUpgrade", this.check, this, "upgrade");
   game.$on("getAchievement", this.check, this, "achievement");
 };
-
+//
 Achievements.prototype.check = function(ev, payload, typ) {
-  let achieved = [];
-  this.notDone[typ].forEach(ach => {
-    let achieve = ach.rules.reduce((a, r) => {
-      a = a && this.checks[r.resType].call(this, r);
-    });
+  const achieved = [];
+  const achs = this.notDone[typ];
+  if (achs === undefined) return;
+
+  achs.forEach(ach => {
+    const achieve = ach.rules.reduce((a, r) => {
+      return a && this.checks[r.resType].call(this, r);
+    }, true);
     if (achieve) achieved.push(ach);
   });
 
   achieved.forEach(ach => {
-    ach.rules.forEach(r => {
-      removeFromArray(this.notDone[r.resType], achievement);
-    });
-    this.done.push(achievement);
+    this.moveToDone(ach);
     ach.achieved = true;
+    ach.acquireDate = Date.now();
     this.$game.$emit("getAchievement", ach);
   });
 };
+//
+Achievements.prototype.moveToDone = function(achievement) {
+  if (!this.done.includes(achievement)) {
+    achievement.rules.forEach(r => {
+      removeFromArray(this.notDone[r.resType], achievement);
+    });
+    this.done.push(achievement);
+  }
+};
+//
+Achievements.prototype.reset = function() {
+  this.notDone = Object.create(null);
+  this.done = [];
 
-Achievements.prototype.save = function() {};
-Achievements.prototype.load = function() {};
-
+  this.all.forEach(a => {
+    a.reset();
+    a.rules.forEach(rule => {
+      if (!this.notDone[rule.resType]) this.notDone[rule.resType] = [];
+      this.notDone[rule.resType].push(a);
+    });
+  });
+};
+//
+Achievements.prototype.save = function() {
+  const data = this.all.filter(ach => ach.achieved).map(ach => {
+    return { id: ach.id, achieved: ach.achieved, date: ach.acquireDate };
+  });
+  return data;
+};
+//
+Achievements.prototype.load = function(data) {
+  data.forEach(d => {
+    const ach = this.all.find(a => a.id === d.id);
+    if (ach) {
+      this.moveToDone(ach);
+      ach.achieved = d.achieved;
+      ach.acquireDate = d.acquireDate;
+    }
+  });
+};
 //
 const checkMoneyRule = function(rule) {
   let money;
@@ -78,6 +113,7 @@ const checkMoneyRule = function(rule) {
 };
 //
 const checkManagerRule = function(rule) {
+  console.log(`manager check`);
   const bought = this.$stats.managersBought;
   return checkNumber(rule.checkOp, bought, rule.checkNumber);
 };
@@ -96,7 +132,7 @@ const checkAchievementRule = function(rule) {
   const got = this.$stats.achievementsGot;
   return checkNumber(rule.checkOp, got, rule.checkNumber);
 };
-
+//
 const checkNumber = function(checkOp, left, right) {
   const a = left instanceof myNumber ? left : new myNumber(left);
   const b = right instanceof myNumber ? right : new myNumber(right);

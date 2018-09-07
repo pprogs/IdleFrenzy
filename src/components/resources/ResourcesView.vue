@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import ResourceList from "@/components/ResourceListView";
+import ResourceList from "./ResourceListView";
 import buyGroup from "@/game/buyGroups";
 
 export default {

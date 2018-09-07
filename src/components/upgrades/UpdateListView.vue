@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import UpdateItem from "@/components/UpdateItemView";
+import UpdateItem from "./UpdateItemView";
 
 export default {
   props: {

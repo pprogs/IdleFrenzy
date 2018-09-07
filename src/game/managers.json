@@ -3,14 +3,14 @@
     "id": "m_palatka",
     "desc": "m_d_palatka",
     "icon": "palatka.jpg",
-    "cost": 1000,
+    "cost": 1, 
     "rid" : "r_palatka"
   },
   {
     "id": "m_magazin",
     "desc": "m_d_magazin",
     "icon": "magaz.jpg",
-    "cost": 6000,
+    "cost": 2, 
     "rid" : "r_magazin"
   },
   {

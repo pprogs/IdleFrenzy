@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ResourceItem from "@/components/ResourceItemView";
+import ResourceItem from "./ResourceItemView";
 
 export default {
   props: ["resources"],

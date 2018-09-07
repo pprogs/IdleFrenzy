@@ -1,19 +1,6 @@
 [
   {
-    "id": 1,
-    "name": "First manager",
-    "icon": "achievement.jpg",
-    "rules": [
-      {
-        "resType": "manager",
-        "checkType": "quantity",
-        "checkOp": "ab",
-        "checkNumber": 0
-      }
-    ]
-  },
-  {
-    "id": 2,
+    "id": 101,
     "name": "Get all managers",
     "icon": "achievement.jpg",
     "rules": [
@@ -26,13 +13,26 @@
     ]
   },
   {
+    "id": 102,
+    "name": "Need some helping hands ??",
+    "icon": "achievement.jpg",
+    "rules": [
+      {
+        "resType": "manager",
+        "checkType": "quantity",
+        "checkOp": "ab",
+        "checkNumber": 0
+      }
+    ]
+  },
+  {
     "id": 3,
     "name": "First moneys!!",
     "icon": "achievement.jpg",
     "rules": [
       {
         "resType": "money",
-        "checkType": "onhand",
+        "checkType": "erned",
         "checkOp": "ab",
         "checkNumber": 100
       }
@@ -45,7 +45,7 @@
     "rules": [
       {
         "resType": "money",
-        "checkType": "quantity",
+        "checkType": "onhand",
         "checkOp": "ab",
         "checkNumber": "1000000"
       }

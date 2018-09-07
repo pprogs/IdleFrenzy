@@ -35,6 +35,7 @@
       <button @click.prevent="save">save</button>
       <button @click.prevent="showResetConfirm">reset</button>
       <br><button @click.prevent="checkLang">lang</button>
+      <button @click.prevent="test">test</button>
 
       <ui-confirm
         ref="resetConfirm"
@@ -94,6 +95,9 @@ export default {
     },
     reset() {
       this.$game.reset();
+    },
+    test() {
+      this.$game.$emit("test");
     },
 
     showResetConfirm() {

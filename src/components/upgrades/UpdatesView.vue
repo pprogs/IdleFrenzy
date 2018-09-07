@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import UpdateList from "@/components/UpdateListView";
+import UpdateList from "./UpdateListView";
 
 export default {
   components: { UpdateList },

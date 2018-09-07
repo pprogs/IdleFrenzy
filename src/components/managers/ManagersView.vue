@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ManagersList from "@/components/ManagerListView";
+import ManagersList from "./ManagerListView";
 
 export default {
   data: function() {

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ManagerItem from "@/components/ManagerItemView";
+import ManagerItem from "./ManagerItemView";
 
 export default {
   props: {

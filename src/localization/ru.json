@@ -7,6 +7,11 @@
   "r_rest": "Ресторан",
   "r_gaz": "Заправка",
   "r_hotel": "Отель",
+  "r_farm": "Ферма",
+  "r_factory": "Завод",
+  "r_casino": "Казино",
+  "r_bank": "Банк",
+  "r_corp": "Корпорапция",
 
   "m_palatka": "Петя",
   "m_d_palatka": "Low performance salesman",
@@ -17,7 +22,9 @@
   "m_rest": "Соня",
   "m_d_rest": "hmmm....",
   "m_hotel": "Леора",
-  "m_d_hotel": "Лучший знаток отельного бизнеса!",    
+  "m_d_hotel": "Лучший знаток отельного бизнеса!", 
+  "m_farm": "Фармэн",
+  "m_d_farm": "Уж точно лучше тебя!",         
 
   "ui_reset_confirm_title": "Обнулить игру?",
   "ui_reset_confirm_text": "Вы уверены, что хотите обнулить игру?",
@@ -37,5 +44,15 @@
   "ui_menu_game": "Игра",
   "ui_menu_settings": "Настройки",
   "ui_menu_login": "Вход",
-  "ui_menu_about": "О Игре"
+  "ui_menu_about": "О Игре",
+
+
+  "stat_total_earned": "Всего заработано",
+  "stat_total_spent": "Всего потрачено",
+  "stat_earned": "Заработано",
+  "stat_spent": "Потрачено",
+  "stat_res": "Ресурсы",
+  "stat_man": "Менеджеры",
+  "stat_upgrades": "Апгрейды",
+  "stat_achievements": "Достижения"
 }

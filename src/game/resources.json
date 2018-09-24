@@ -38,6 +38,46 @@
     "baseCost": 20000,
     "baseTime": 12,
     "baseCostMult": 1.10
-  }
+  },
+  {
+    "id": "r_farm",
+    "icon": "farm.jpg",
+    "baseIncome": 1600,
+    "baseCost": 32000,
+    "baseTime": 15,
+    "baseCostMult": 1.10
+  },
+  {
+    "id": "r_factory",
+    "icon": "factory.jpg",
+    "baseIncome": 2600,
+    "baseCost": 52000,
+    "baseTime": 30,
+    "baseCostMult": 1.10
+  },
+  {
+    "id": "r_casino",
+    "icon": "casino.jpg",
+    "baseIncome": 2600,
+    "baseCost": 72000,
+    "baseTime": 15,
+    "baseCostMult": 1.10
+  },
+  {
+    "id": "r_bank",
+    "icon": "bank.jpg",
+    "baseIncome": 5600,
+    "baseCost": 92000,
+    "baseTime": 40,
+    "baseCostMult": 1.10
+  },
+  {
+    "id": "r_corp",
+    "icon": "corp.jpg",
+    "baseIncome": 15600,
+    "baseCost": 122000,
+    "baseTime": 120,
+    "baseCostMult": 1.10
+  }      
 
 ]

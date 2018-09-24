@@ -27,6 +27,7 @@
       [k: {{res.k}}] 
       [r: {{res.format()}}] 
       [num : {{res.num()}}]
+      [f2: {{res.format2()}}]
     </div> 
 
     <div>
@@ -97,7 +98,7 @@ export default {
       this.$game.reset();
     },
     test() {
-      this.$game.$emit("test");
+      this.res = MyNumber.fromText("100abf");
     },
 
     showResetConfirm() {

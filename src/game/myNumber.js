@@ -48,6 +48,19 @@ myNumber.prefixes = [
 myNumber.fromObj = function(obj) {
   return new myNumber(obj.number || obj.n, obj.k);
 };
+myNumber.fromText = function(str) {
+  let r = str.match(/(\d+)\s*([a-f]+)/i);
+  let num = r[1] || 0;
+  let prefix = (r[2] || "").split("").reverse();
+  let tmp = "abcdef".split("");
+
+  let k = prefix.reduce((a, v, i) => {
+    let idx = tmp.findIndex(l => l === v) + 1;
+    return a + idx * Math.pow(6, i);
+  }, 0);
+
+  return new myNumber(num, k);
+};
 
 myNumber.prototype.add = addFunction(addNumbers);
 myNumber.prototype.dec = addFunction(decNumbers);
@@ -64,6 +77,38 @@ myNumber.prototype.toString = function() {
 };
 myNumber.prototype.num = function() {
   return this.k === 0 ? this.number : Math.pow(1000, this.k) * this.number;
+};
+
+myNumber.prototype.format2 = function() {
+  let n = this.number;
+  let k = this.k;
+
+  while (n >= 1000) {
+    n /= 1000;
+    k += 1;
+  }
+
+  n = +n.toFixed(1);
+  if (k === 0) return `${n}`;
+
+  let prefix = [];
+  const tmp = " abcdef".split("");
+
+  for (;;) {
+    if (k <= 6) break;
+
+    let rem = k % 6;
+    prefix.push(tmp[rem]);
+
+    k = ~~(k / 6);
+  }
+
+  prefix.push(tmp[k]);
+
+  prefix = prefix.reverse().join("");
+  if (prefix === " ") return `${n}`;
+
+  return `${n} ${prefix}`;
 };
 myNumber.prototype.format = function() {
   let n = this.number;

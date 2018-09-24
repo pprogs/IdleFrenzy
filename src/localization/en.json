@@ -7,6 +7,12 @@
   "r_rest": "Restaraunt",
   "r_gaz": "Gas station",
   "r_hotel": "Hotel",
+  "r_farm": "Farm",
+  "r_factory": "Factory",
+  "r_casino": "Casino",
+  "r_bank": "Bank",
+  "r_corp": "Corporation",
+
 
   "m_palatka": "Petya",
   "m_d_palatka": "Low performance salesman",
@@ -18,6 +24,8 @@
   "m_d_rest": "hmmm....",
   "m_hotel": "Leora",
   "m_d_hotel": "The best manager in the world",  
+  "m_farm": "Farman",
+  "m_d_farm": "Better than you!",    
 
   "ui_reset_confirm_title": "Reset game?",
   "ui_reset_confirm_text": "Do you really whant to reset game?",
@@ -37,5 +45,15 @@
   "ui_menu_game": "Game",
   "ui_menu_settings": "Settings",
   "ui_menu_login": "Login",
-  "ui_menu_about": "About"
+  "ui_menu_about": "About",
+
+
+  "stat_total_earned": "Total earned",
+  "stat_total_spent": "Total spent",
+  "stat_earned": "Earned",
+  "stat_spent": "Spent",
+  "stat_res": "Resources",
+  "stat_man": "Managers",
+  "stat_upgrades": "Upgrades",
+  "stat_achievements": "Achievements"
 }

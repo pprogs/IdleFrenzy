@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div>Total Earned: {{stat.totalMoneyEarned.toString()}}</div>
-    <div>Total Spent: {{stat.totalMoneySpent.toString()}}</div>
+    <div>{{$t("stat_total_earned")}}: {{stat.totalMoneyEarned.toString()}}</div>
+    <div>{{$t("stat_total_spent")}}: {{stat.totalMoneySpent.toString()}}</div>
     <div></div>
-    <div>Earned: {{stat.moneyEarned.toString()}}</div>
-    <div>Spent: {{stat.moneySpent.toString()}}</div>
+    <div>{{$t("stat_earned")}}: {{stat.moneyEarned.toString()}}</div>
+    <div>{{$t("stat_spent")}}: {{stat.moneySpent.toString()}}</div>
     <div></div>
-    <div>Resources: {{stat.totalResourcesBought.toString()}}</div>
-    <div>Managers: {{stat.managersBought}}</div>
-    <div>Upgrades: {{stat.upgradesBought}}</div>
-    <div>Achievements: {{stat.achievementsGot}}</div>
+    <div>{{$t("stat_res")}}: {{stat.totalResourcesBought.toString()}}</div>
+    <div>{{$t("stat_man")}}: {{stat.managersBought}}</div>
+    <div>{{$t("stat_upgrades")}}: {{stat.upgradesBought}}</div>
+    <div>{{$t("stat_achievements")}}: {{stat.achievementsGot}}</div>
   </div>
 </template>
 

@@ -31,7 +31,14 @@
     "id": "m_hotel",
     "desc": "m_d_hotel",
     "icon": "hotel.jpg",
-    "cost": 200000,
+    "cost": 180000,
     "rid" : "r_hotel"
+  },  
+  {
+    "id": "m_farm",
+    "desc": "m_d_farm",
+    "icon": "farm.jpg",
+    "cost": 260000,
+    "rid" : "r_farm"
   }
 ]
